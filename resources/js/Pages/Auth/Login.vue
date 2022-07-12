@@ -1,3 +1,34 @@
+<script setup>
+import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import JetAuthenticationCard from "@/Jetstream/AuthenticationCard.vue";
+import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo.vue";
+import JetButton from "@/Jetstream/Button.vue";
+import JetInput from "@/Jetstream/Input.vue";
+import JetCheckbox from "@/Jetstream/Checkbox.vue";
+import JetLabel from "@/Jetstream/Label.vue";
+import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
+
+defineProps({
+    canResetPassword: Boolean,
+    status: String,
+});
+
+const form = useForm({
+    email: "",
+    password: "",
+    remember: false,
+});
+
+const submit = () => {
+    form.transform((data) => ({
+        ...data,
+        remember: form.remember ? "on" : "",
+    })).post(route("login"), {
+        onFinish: () => form.reset("password"),
+    });
+};
+</script>
+
 <template>
     <Head title="Log in" />
 
@@ -38,20 +69,22 @@
                         <p class="mt-3 text-gray-500 dark:text-gray-300">
                             Inicia sesión con tu cuenta.
                         </p>
+                        <JetValidationErrors class="mb-4" />
                     </div>
 
                     <div class="mt-8">
-                        <form>
+                        <form @submit.prevent="submit">
                             <div>
                                 <label
-                                    for="email"
+                                    for="username"
                                     class="block mb-2 text-sm text-gray-600 dark:text-gray-200"
                                     >Usuario</label
                                 >
                                 <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
+                                    type="text"
+                                    name="username"
+                                    id="username"
+                                    v-model="form.email"
                                     placeholder=""
                                     class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
@@ -64,17 +97,18 @@
                                         class="text-sm text-gray-600 dark:text-gray-200"
                                         >Password</label
                                     >
-                                    <a
+                                    <!-- <a
                                         href="#"
                                         class="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline"
                                         >Forgot password?</a
-                                    >
+                                    > -->
                                 </div>
 
                                 <input
                                     type="password"
                                     name="password"
                                     id="password"
+                                    v-model="form.password"
                                     placeholder=""
                                     class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                                 />
@@ -82,6 +116,7 @@
 
                             <div class="mt-6">
                                 <button
+                                    type="submit"
                                     class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
                                 >
                                     Sign in
@@ -92,7 +127,7 @@
                         <p class="mt-6 text-sm text-center text-gray-400">
                             Don&#x27;t have an account yet?
                             <a
-                                href="#"
+                                :href="route('register')"
                                 class="text-blue-500 focus:outline-none focus:underline hover:underline"
                                 >Sign up</a
                             >.
@@ -103,34 +138,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import JetAuthenticationCard from "@/Jetstream/AuthenticationCard.vue";
-import JetAuthenticationCardLogo from "@/Jetstream/AuthenticationCardLogo.vue";
-import JetButton from "@/Jetstream/Button.vue";
-import JetInput from "@/Jetstream/Input.vue";
-import JetCheckbox from "@/Jetstream/Checkbox.vue";
-import JetLabel from "@/Jetstream/Label.vue";
-import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
-
-defineProps({
-    canResetPassword: Boolean,
-    status: String,
-});
-
-const form = useForm({
-    email: "",
-    password: "",
-    remember: false,
-});
-
-const submit = () => {
-    form.transform((data) => ({
-        ...data,
-        remember: form.remember ? "on" : "",
-    })).post(route("login"), {
-        onFinish: () => form.reset("password"),
-    });
-};
-</script>
