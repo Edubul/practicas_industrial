@@ -40,7 +40,7 @@ const submit = () => {
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
+    <AppLayout title="Laboratorio">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Laboratorio de Ingeniería Industrial
@@ -50,7 +50,7 @@ const submit = () => {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-xl sm:rounded-lg">
                     <div class="flex items-center justify-around w-full p-5">
-                        <div class="flex flex-col h-full w-1/6">
+                        <div class="flex flex-col h-full w-full md:w-1/6">
                             <JetLabel
                                 for="fecha"
                                 value="Fecha"
@@ -67,7 +67,7 @@ const submit = () => {
                                 autocomplete="name"
                             />
                         </div>
-                        <div class="flex flex-col h-full w-1/6">
+                        <div class="flex flex-col h-full w-full md:w-1/6">
                             <JetLabel
                                 for="horario"
                                 value="Horario"
@@ -83,7 +83,7 @@ const submit = () => {
                                 </option>
                             </select-option>
                         </div>
-                        <div class="flex flex-col h-full w-1/6">
+                        <div class="flex flex-col h-full w-full md:w-1/6">
                             <JetLabel
                                 for="instructores"
                                 value="Instructor"
@@ -103,7 +103,7 @@ const submit = () => {
                                 </option>
                             </select-option>
                         </div>
-                        <div class="flex flex-col h-full w-1/6">
+                        <div class="flex flex-col h-full w-full md:w-1/6">
                             <JetLabel
                                 for="lab"
                                 value="Laboratorio"
@@ -117,7 +117,7 @@ const submit = () => {
                             </select-option>
                         </div>
 
-                        <jet-button class="h-1/2" @click="submit"
+                        <jet-button class="h-1/2 mt-5 md:mt-0" @click="submit"
                             >Aceptar</jet-button
                         >
                     </div>

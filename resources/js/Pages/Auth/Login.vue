@@ -36,19 +36,17 @@ const submit = () => {
         <div class="flex justify-center h-screen">
             <div
                 class="hidden bg-cover lg:block lg:w-2/3"
-                style="
-                    background-image: url(https://images.unsplash.com/photo-1616763355603-9755a640a287?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80);
-                "
+                style="background-image: url('/img/bg.jpg')"
             >
                 <div
                     class="flex items-center h-full px-20 bg-gray-900 bg-opacity-40"
                 >
                     <div>
-                        <h2 class="text-4xl font-bold text-white">
+                        <h2 class="text-4xl font-bold text-white shadow-md">
                             Ingeniería Industrial
                         </h2>
 
-                        <p class="max-w-xl mt-3 text-gray-300">
+                        <p class="max-w-xl mt-3 text-gray-300 shadow-md">
                             Instituto Tecnológico de Puebla
                         </p>
                     </div>
@@ -124,13 +122,8 @@ const submit = () => {
                             </div>
                         </form>
 
-                        <p class="mt-6 text-sm text-center text-gray-400">
-                            Don&#x27;t have an account yet?
-                            <a
-                                :href="route('register')"
-                                class="text-blue-500 focus:outline-none focus:underline hover:underline"
-                                >Sign up</a
-                            >.
+                        <p class="mt-6 text-sm text-center text-gray-800">
+                            Desarrollado por Servicio Social ITP
                         </p>
                     </div>
                 </div>

@@ -188,7 +188,7 @@ function daySelect(date) {
                             >
                                 <div
                                     style="width: 14.28%; height: 120px"
-                                    class="px-4 pt-2 border-r border-b relative hover:bg-gray-200 hover:transition hover:duration-700 cursor-pointer"
+                                    class="px-4 pt-2 border-r border-b relative hover:bg-gray-200 active:bg-gray-300 hover:transition hover:duration-700 cursor-pointer"
                                     :class="{
                                         'bg-gray-200': daySelect(date) == true,
                                     }"
