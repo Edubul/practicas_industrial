@@ -6,6 +6,16 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import {
+    faVault,
+    faFileArrowUp,
+    faPenRuler,
+    faCalendarPlus,
+} from "@fortawesome/free-solid-svg-icons";
+
+const icons = library.add(faVault, faFileArrowUp, faPenRuler, faCalendarPlus);
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -21,6 +31,8 @@ createInertiaApp({
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(icons)
+            .component("font-awesome-icon", FontAwesomeIcon)
             .mount(el);
     },
 });

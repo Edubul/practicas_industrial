@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\LabController;
+use App\Http\Controllers\BancoController;
+use App\Http\Controllers\EncuestaController;
+use App\Http\Controllers\PracticasController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,8 +27,30 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', [LabController::class, 'index'])->name('dashboard');
+    Route::get('/crear-cita', [PracticasController::class, 'cita'])
+        ->name('crear-cita');
+});
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/panel', [PracticasController::class, 'index'])
+        ->name('panel');
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/banco-practicas', [BancoController::class, 'index'])
+        ->name('banco-practicas');
 });
 
 
-Route::post('laboratorio/create', [LabController::class, 'store']);
+
+Route::get('encuesta', [EncuestaController::class, 'index'])->name('encuesta');
+Route::post('encuesta/create', [EncuestaController::class, 'create']);
+
+Route::post('practica/create', [PracticasController::class, 'store']);

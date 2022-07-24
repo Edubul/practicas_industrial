@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('practicas', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('horario');
-            $table->string('fecha');
-            $table->enum('laboratorio', ['Lab. Ergonomia', 'Lab. Ing. Inversa', 'Lab. Metrologia', 'Lab. Manufactura']);
+            $table->unsignedBigInteger('user_id')->nullable(false);
+            $table->unsignedBigInteger('taller_id')->nullable(false);
+            $table->unsignedBigInteger('horario_id')->nullable(false);
+            $table->date('fecha')->nullable(false);
             $table->timestamps();
         });
     }

@@ -5,10 +5,11 @@
         <select
             :id="id"
             ref="input"
-            v-model="selected"
             v-bind="{ ...$attrs, class: null }"
+            v-model="selected"
             class="form-select w-full rounded-md border border-gray-300"
-            :class="{ error: error }"
+            :class="{ error: error, 'bg-gray-200': disabled == true }"
+            :disabled="disabled"
         >
             <slot />
         </select>
@@ -30,19 +31,12 @@ export default {
         },
         error: String,
         label: String,
-        modelValue: [String, Number, Boolean],
+        disabled: Boolean,
     },
-    emits: ["update:modelValue"],
     data() {
-        return {
-            selected: this.modelValue,
-        };
+        return {};
     },
-    watch: {
-        selected(selected) {
-            this.$emit("update:modelValue", selected);
-        },
-    },
+
     methods: {
         focus() {
             this.$refs.input.focus();
