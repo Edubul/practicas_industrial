@@ -19,7 +19,7 @@ import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
                             class="grid h-28 rounded-md divide-y divide-dashed hover:divide-solid justify-evenly m-3 mt-10 grid-cols-4"
                         >
                             <div class="col-span-1 p-3">
-                                <Link :href="route('crear-cita')">
+                                <Link :href="route('calendario')">
                                     <div
                                         class="flex flex-col justify-center h-full items-center w-m bg-gray-200 rounded-md hover:bg-gray-300"
                                     >
@@ -36,7 +36,7 @@ import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
                                 </Link>
                             </div>
                             <div class="col-span-1 p-3">
-                                <Link :href="route('crear-cita')">
+                                <Link :href="route('practica.create')">
                                     <div
                                         class="flex flex-col justify-center h-full items-center w-m bg-gray-200 rounded-md hover:bg-gray-300"
                                     >
@@ -53,7 +53,7 @@ import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
                                 </Link>
                             </div>
                             <div class="col-span-1 p-3">
-                                <Link :href="route('banco-practicas')">
+                                <Link :href="route('practicas.banco')">
                                     <div
                                         class="flex flex-col justify-center h-full items-center w-m bg-gray-200 rounded-md hover:bg-gray-300"
                                     >
@@ -70,7 +70,7 @@ import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
                                 </Link>
                             </div>
                             <div class="col-span-1 p-3">
-                                <Link :href="route('crear-cita')">
+                                <Link :href="route('evidencia.create')">
                                     <div
                                         class="flex flex-col justify-center h-full items-center w-m bg-gray-200 rounded-md hover:bg-gray-300"
                                     >
@@ -80,7 +80,7 @@ import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
                                         />
                                         <button class="tr-300">
                                             <span class="text-lg font-medium"
-                                                >Subir una práctica</span
+                                                >Subir una Evidencia</span
                                             >
                                         </button>
                                     </div>

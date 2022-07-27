@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Archivos;
 use App\Models\EncuestasRespuestas;
 use App\Models\Horarios;
+use App\Models\Materias;
 use App\Models\PreguntasEncuesta;
 use App\Models\Talleres;
 use App\Models\User;
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
         Talleres::factory(4)->create();
         PreguntasEncuesta::factory(10)->create();
         EncuestasRespuestas::factory(10)->create();
-        Archivos::factory(5)->create();
+        Archivos::factory(60)->create();
+        Materias::factory(60)->create();
     }
 }

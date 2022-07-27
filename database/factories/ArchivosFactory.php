@@ -19,7 +19,8 @@ class ArchivosFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => "practica_" . self::$c++ . ".pdf",
+            'materia_id' => $this->faker->numberBetween(1, 10),
+            'nombre' => "practica_" . self::$c . ".pdf",
             'url' => 'storage/practica_' . self::$archivo_count++ . '.pdf',
             'aprobado' => false,
         ];
