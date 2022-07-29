@@ -10,9 +10,22 @@ class Practica extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'taller_id',
-        'horario_id',
-        'fecha',
+        "profesores",
+        "materia",
+        "unidad",
+        "tema",
+        "nombre_practica",
+        "atributo_egreso",
+        "req_ub_op1",
+        "req_ub_op2",
+        "equipo_prot",
+        "maq_usar",
+        "inst_med",
+        "material_didactico",
+        "herr_man",
+        "recom_seguridad",
+        "objetivo",
+        "pasos",
+        "fuentes_info",
     ];
 }

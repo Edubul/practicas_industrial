@@ -24,17 +24,43 @@ class PracticasRequest extends FormRequest
     public function rules()
     {
         return [
-            'fecha' => 'required',
-            'horario' => 'required',
-            'taller' => 'required',
+            'profesores' => [],
+            'materia' => ['required'],
+            'unidad' => ['required'],
+            'tema' => ['required'],
+            'nombre_practica' => ['required'],
+            'atributo_egreso' => ['required'],
+            'req_ub_op1' => ['required'],
+            'req_ub_op2' => [],
+            'equipo_prot' => ['required'],
+            'maq_usar' => ['required'],
+            'inst_med' => [],
+            'material_didactico' => ['required'],
+            'herr_man' => [],
+            'herr_semi' => [],
+            'recom_seguridad' => [],
+            'objetivo' => ['required'],
+            'pasos' => ['required'],
+            'fuentes_info' => ['required'],
+            'file' => [],
         ];
     }
+
     public function messages()
     {
         return [
-            'fecha.required' => 'La fecha es requerida',
-            'horario.required' => 'El horario es requerido',
-            'taller.required' => 'El taller es requerido'
+            'materia.required' => 'Falta seleccionar una materia',
+            'unidad.required' => 'Falta seleccionar una unidad',
+            'tema.required' => 'Falta seleccionar un tema',
+            'nombre_practica.required' => 'Falta ingresar un nombre para la práctica',
+            'atributo_egreso.required' => 'Falta seleccionar un atributo de egreso',
+            'req_ub_op1.required' => 'Falta seleccionar una opción para la requerimiento de ubicación',
+            'equipo_prot.required' => 'Falta seleccionar un equipo de protección',
+            'maq_usar.required' => 'Falta seleccionar una maquinaria',
+            'material_didactico.required' => 'Falta agregar material didactico',
+            'objetivo.required' => 'Falta ingresar un objetivo',
+            'pasos.required' => 'Falta ingresar los pasos a seguir',
+            'fuentes_info.required' => 'Falta ingresar las fuentes de información',
         ];
     }
 }

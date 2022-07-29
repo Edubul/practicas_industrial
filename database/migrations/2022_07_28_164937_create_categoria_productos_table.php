@@ -13,18 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('horarios', function (Blueprint $table) {
+        Schema::create('categoria_productos', function (Blueprint $table) {
             $table->id();
-            $table->string('horario');
+            $table->string('nombre_categoria');
             $table->timestamps();
-        });
-
-
-        Schema::table('citas', function (Blueprint $table) {
-            // FK
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('taller_id')->references('id')->on('talleres');
-            $table->foreign('horario_id')->references('id')->on('horarios');
         });
     }
 
@@ -35,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('horarios');
+        Schema::dropIfExists('categoria_productos');
     }
 };

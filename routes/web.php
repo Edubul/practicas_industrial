@@ -24,12 +24,21 @@ Route::get('/', function () {
     return Inertia::render('Auth/Login');
 });
 
+// Calendario
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     Route::get('/calendario', [CalendarioController::class, 'index'])
+        ->name('calendario');
+});
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::post('/calendario', [CalendarioController::class, 'store'])
         ->name('calendario');
 });
 
@@ -52,7 +61,7 @@ Route::middleware([
 });
 Route::get('practica/create', [PracticasController::class, 'create'])
     ->name('practica.create');
-Route::post('practica/create', [PracticasController::class, 'store']);
+Route::post('practica/', [PracticasController::class, 'store']);
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

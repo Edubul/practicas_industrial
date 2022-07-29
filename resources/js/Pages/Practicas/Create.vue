@@ -3,16 +3,126 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import Label from "@/Jetstream/Label.vue";
 import SelectInput from "@/Jetstream/SelectInput.vue";
 import JetInput from "@/Jetstream/Input.vue";
-
+import ValidationErrors from "@/Jetstream/ValidationErrors.vue";
+import JetButton from "@/Jetstream/Button.vue";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
+import { ref, watch, computed } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+const user = usePage().props.value.user;
+const materias = usePage().props.value.materias;
+const equipo_proteccion = usePage().props.value.equipo_proteccion;
+const instrumentos_medicion = usePage().props.value.instrumentos_medicion;
+const herramienta_manu = usePage().props.value.herramientas_man;
+const herramientas_mec = usePage().props.value.herramientas_mec;
+const maquinaria = usePage().props.value.maquinaria;
+const maq_usar = ref([]);
+const equipo_prot = ref([]);
+const instrumentos_med = ref([]);
+const herramientas_man = ref([]);
+const herramientas_meca = ref([]);
+const profesores = ref([]);
+
+const form = useForm({
+    profesores: null,
+    materia: null,
+    unidad: null,
+    tema: null,
+    nombre_practica: null,
+    atributo_egreso: null,
+    req_ub_op1: null,
+    req_ub_op2: null,
+    equipo_prot: null,
+    maq_usar: null,
+    inst_med: null,
+    material_didactico: null,
+    herr_man: null,
+    herr_mec: null,
+    recom_seguridad: null,
+    objetivo: null,
+    pasos: null,
+    fuentes_info: null,
+    file: null,
+});
+
+function store() {
+    form.equipo_prot = equipo_prot.value;
+    form.maq_usar = maq_usar.value;
+    form.inst_med = instrumentos_med.value;
+    form.herr_man = herramientas_man.value;
+    form.herr_mec = herramientas_meca.value;
+    if (confirm("¿Está seguro de enviar la práctica?")) {
+        Inertia.post("/practica", form);
+    }
+}
+
+function addElement(element, type) {
+    console.log(element, type);
+    if (element == null || element == "") return;
+    switch (type) {
+        case "maquinaria":
+            maq_usar.value.find((e) => e == element)
+                ? alert("Ya se ha agregado esta maquinaria")
+                : maq_usar.value.push(element);
+            break;
+        case "equipo_proteccion":
+            equipo_prot.value.find((e) => e == element)
+                ? alert("Ya se ha agregado este equipo de protección")
+                : equipo_prot.value.push(element);
+            break;
+        case "instrumentos_medicion":
+            instrumentos_med.value.find((e) => e == element)
+                ? alert("Ya se ha agregado este instrumento de medición")
+                : instrumentos_med.value.push(element);
+            break;
+        case "herramientas_manuales":
+            herramientas_man.value.find((e) => e == element)
+                ? alert("Ya se ha agregado esta herramienta manual")
+                : herramientas_man.value.push(element);
+            break;
+        case "herramientas_mec":
+            herramientas_meca.value.find((e) => e == element)
+                ? alert("Ya se ha agregado esta herramienta mecánica")
+                : herramientas_meca.value.push(element);
+            break;
+        case "profesores":
+            profesores.value.find((e) => e == element)
+                ? alert("Ya se ha agregado este profesor")
+                : profesores.value.push(element);
+    }
+}
+
+function removeElement(element, type) {
+    switch (type) {
+        case "maquinaria":
+            maq_usar.value.splice(maq_usar.value.indexOf(element), 1);
+            break;
+        case "equipo_proteccion":
+            equipo_prot.value.splice(equipo_prot.value.indexOf(element), 1);
+            break;
+        case "instrumentos_medicion":
+            instrumentos_med.value.splice(
+                instrumentos_med.value.indexOf(element),
+                1
+            );
+            break;
+        case "herramientas_manuales":
+            herramientas_man.value.splice(
+                herramientas_man.value.indexOf(element),
+                1
+            );
+            break;
+        case "herramientas_mec":
+            herramientas_meca.value.splice(
+                herramientas_meca.value.indexOf(element),
+                1
+            );
+            break;
+        case "profesores":
+            profesores.value.splice(profesores.value.indexOf(element), 1);
+    }
+}
 </script>
 
-<style scoped>
-tr {
-    border: 1px solid blue !important;
-    transform: translateY(23px);
-}
-</style>
 <template>
     <AppLayout title="Laboratorio">
         <template #header>
@@ -26,28 +136,167 @@ tr {
                     <div class="p-5">
                         <div class="w-full">
                             <div class="mb-3">
+                                <ValidationErrors />
+                                <div class="mb-5">
+                                    <ul
+                                        class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0"
+                                        id="tabs-tab3"
+                                        role="tablist"
+                                    >
+                                        <li
+                                            class="nav-item"
+                                            role="presentation"
+                                        >
+                                            <a
+                                                href="#tabs-home3"
+                                                class="nav-link w-full block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent active"
+                                                id="tabs-home-tab3"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#tabs-home3"
+                                                role="tab"
+                                                aria-controls="tabs-home3"
+                                                aria-selected="true"
+                                                >Individual</a
+                                            >
+                                        </li>
+                                        <li
+                                            class="nav-item"
+                                            role="presentation"
+                                        >
+                                            <a
+                                                href="#tabs-profile3"
+                                                class="nav-link w-full block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
+                                                id="tabs-profile-tab3"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#tabs-profile3"
+                                                role="tab"
+                                                aria-controls="tabs-profile3"
+                                                aria-selected="false"
+                                                >Colegiada</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div
+                                        class="tab-content bg-gray-100 p-4"
+                                        id="tabs-tabContent3"
+                                    >
+                                        <div
+                                            class="tab-pane fade show active"
+                                            id="tabs-home3"
+                                            role="tabpanel"
+                                            aria-labelledby="tabs-home-tab3"
+                                        >
+                                            Nombre: {{ user.name }}
+                                        </div>
+                                        <div
+                                            class="tab-pane fade"
+                                            id="tabs-profile3"
+                                            role="tabpanel"
+                                            aria-labelledby="tabs-profile-tab3"
+                                        >
+                                            <p>Lista de profesores</p>
+                                            <div class="mb-3">
+                                                <div
+                                                    v-for="profesor in profesores"
+                                                    class="flex flex-wrap space-x-2 my-3"
+                                                >
+                                                    <span
+                                                        class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                                                    >
+                                                        {{ profesor }}
+                                                        <button
+                                                            @click="
+                                                                removeElement(
+                                                                    form.profesores,
+                                                                    'profesores'
+                                                                )
+                                                            "
+                                                            class="bg-transparent hover focus:outline-none"
+                                                        >
+                                                            <svg
+                                                                aria-hidden="true"
+                                                                focusable="false"
+                                                                data-prefix="fas"
+                                                                data-icon="times"
+                                                                class="w-3 ml-3"
+                                                                role="img"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 352 512"
+                                                            >
+                                                                <path
+                                                                    fill="currentColor"
+                                                                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                                                ></path>
+                                                            </svg>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="w-1/2">
+                                                <JetInput
+                                                    type="text"
+                                                    class="mb-3"
+                                                    v-model="form.profesores"
+                                                />
+                                                <JetButton
+                                                    @click="
+                                                        addElement(
+                                                            form.profesores,
+                                                            'profesores'
+                                                        )
+                                                    "
+                                                >
+                                                    Agregar profesor
+                                                </JetButton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <h2 class="text-lg font-semibold">General</h2>
                                 <div class="flex justify-between">
                                     <div class="w-1/2">
                                         <Label>Materia</Label>
-                                        <JetInput type="text" class="w-full" />
+                                        <select-input
+                                            v-model="form.materia"
+                                            class="w-full"
+                                        >
+                                            <option value="">
+                                                Seleccione una materia
+                                            </option>
+                                            <option v-for="materia in materias">
+                                                {{ materia.nombre }}
+                                            </option>
+                                        </select-input>
                                     </div>
                                     <div class="w-1/2 ml-3">
                                         <Label>Unidad</Label>
-                                        <JetInput type="text" class="w-full" />
+                                        <JetInput
+                                            v-model="form.unidad"
+                                            type="text"
+                                            class="w-full"
+                                        />
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <Label>Tema</Label>
-                                <JetInput type="text" class="w-full" />
+                                <JetInput
+                                    v-model="form.tema"
+                                    type="text"
+                                    class="w-full"
+                                />
                             </div>
 
                             <div class="mb-3">
                                 <div class="flex justify-between">
                                     <div class="w-1/2">
                                         <Label>Nombre de la practica</Label>
-                                        <JetInput type="text" class="w-full" />
+                                        <JetInput
+                                            v-model="form.nombre_practica"
+                                            type="text"
+                                            class="w-full"
+                                        />
                                     </div>
                                     <div class="w-1/2 ml-3">
                                         <Label>No. de la practica</Label>
@@ -62,16 +311,12 @@ tr {
                             </div>
                             <div class="mb-3">
                                 <Label>Atributo de egreso:</Label>
-                                <select-input>
-                                    <option value="">Calidad</option>
-                                    <option value="">Manteminiento</option>
-                                    <option value="">
-                                        Manufactura y Tecnologías
-                                    </option>
-                                    <option value="">
-                                        Innovacion / Emprendimiento
-                                    </option>
-                                    <option value="">
+                                <select-input v-model="form.atributo_egreso">
+                                    <option>Calidad</option>
+                                    <option>Manteminiento</option>
+                                    <option>Manufactura y Tecnologías</option>
+                                    <option>Innovacion / Emprendimiento</option>
+                                    <option>
                                         Seguridad, Salud y Medio Ambiente
                                     </option>
                                 </select-input>
@@ -81,7 +326,7 @@ tr {
                                 <div class="flex">
                                     <div class="w-full">
                                         <Label>Opcion 1: </Label>
-                                        <select-input>
+                                        <select-input v-model="form.req_ub_op1">
                                             Desarrollo de Capital Humano
                                             <option>Antropometría</option>
                                             <option>Estudio del trabajo</option>
@@ -111,7 +356,7 @@ tr {
 
                                     <div class="w-full ml-3">
                                         <Label>Opcion 2: </Label>
-                                        <select-input>
+                                        <select-input v-model="form.req_ub_op2">
                                             Desarrollo de Capital Humano
                                             <option>Antropometría</option>
                                             <option>Estudio del trabajo</option>
@@ -141,197 +386,370 @@ tr {
                                 </div>
                             </div>
 
-                            <div class="flex flex-col">
-                                <Label>Equipo de protección: </Label>
-                                <select-input class="mb-3 w-full">
-                                    <option>Tapones Auditivos</option>
-                                    <option>
-                                        Gafas de seguridad transparente
-                                    </option>
-                                    <option>Zapato Cerrado</option>
-                                    <option>Bota Industrial</option>
-                                    <option>
-                                        Gafas de seguridad 5 sombras
-                                    </option>
-                                    <option>Careta para soldar</option>
-                                    <option>Mandil para para soldar</option>
-                                    <option>Guantes de nitrilo</option>
-                                    <option>Guantes cubiertos de latex</option>
-                                    <option>
-                                        Guantes resistentes a cortes
-                                    </option>
-                                    <option>Guantes de polietileno</option>
-                                    <option>
-                                        Guantes de algodón para inspección
-                                    </option>
-                                    <option>Guantes de piel</option>
-                                    <option>Guantes para soldar</option>
-                                    <option>Mangas para soldar</option>
-                                    <option>Casco</option>
-                                </select-input>
-                            </div>
-
                             <h2 class="text-lg font-semibold">
                                 Maquinaria-Herramientas
                             </h2>
-                            <Label>Maquinaria o equipo a utilizar: </Label>
-                            <div class="flex">
-                                <select-input class="mb-3 w-1/2">
-                                    <option>Mesa de bandas</option>
-                                    <option>Mesa giratoria octagonal</option>
-                                    <option>Mesa giratoria de paleta</option>
-                                    <option>Emplayadora</option>
-                                    <option>
-                                        Banda transportandora con 6 estaciones
-                                    </option>
-                                    <option>Extrusora</option>
-                                    <option>Inyectora</option>
-                                    <option>CNC Plasma</option>
-                                    <option>CNC Router</option>
-                                    <option>Laser grabado</option>
-                                    <option>Escaner 3D</option>
-                                    <option>Comparador Óptico</option>
-                                    <option>Soldadora manual</option>
-                                    <option>Cortadora</option>
-                                    <option>Taladro banco</option>
-                                    <option>Esmeril</option>
-                                    <option>Banco</option>
-                                    <option>
-                                        Toda la herramienta semiautomática
-                                    </option>
-                                    <option>No aplica</option>
-                                </select-input>
-                                <select-input class="mb-3 ml-3 w-1/2">
-                                    <option>Mesa de bandas</option>
-                                    <option>Mesa giratoria octagonal</option>
-                                    <option>Mesa giratoria de paleta</option>
-                                    <option>Emplayadora</option>
-                                    <option>
-                                        Banda transportandora con 6 estaciones
-                                    </option>
-                                    <option>Extrusora</option>
-                                    <option>Inyectora</option>
-                                    <option>CNC Plasma</option>
-                                    <option>CNC Router</option>
-                                    <option>Laser grabado</option>
-                                    <option>Escaner 3D</option>
-                                    <option>Comparador Óptico</option>
-                                    <option>Soldadora manual</option>
-                                    <option>Cortadora</option>
-                                    <option>Taladro banco</option>
-                                    <option>Esmeril</option>
-                                    <option>Banco</option>
-                                    <option>
-                                        Toda la herramienta semiautomática
-                                    </option>
-                                    <option>No aplica</option>
-                                </select-input>
-                            </div>
-                            <div class="flex">
-                                <select-input class="mb-3 w-1/2">
-                                    <option>Mesa de bandas</option>
-                                    <option>Mesa giratoria octagonal</option>
-                                    <option>Mesa giratoria de paleta</option>
-                                    <option>Emplayadora</option>
-                                    <option>
-                                        Banda transportandora con 6 estaciones
-                                    </option>
-                                    <option>Extrusora</option>
-                                    <option>Inyectora</option>
-                                    <option>CNC Plasma</option>
-                                    <option>CNC Router</option>
-                                    <option>Laser grabado</option>
-                                    <option>Escaner 3D</option>
-                                    <option>Comparador Óptico</option>
-                                    <option>Soldadora manual</option>
-                                    <option>Cortadora</option>
-                                    <option>Taladro banco</option>
-                                    <option>Esmeril</option>
-                                    <option>Banco</option>
-                                    <option>
-                                        Toda la herramienta semiautomática
-                                    </option>
-                                    <option>No aplica</option>
-                                </select-input>
-                                <select-input class="mb-3 ml-3 w-1/2">
-                                    <option>Mesa de bandas</option>
-                                    <option>Mesa giratoria octagonal</option>
-                                    <option>Mesa giratoria de paleta</option>
-                                    <option>Emplayadora</option>
-                                    <option>
-                                        Banda transportandora con 6 estaciones
-                                    </option>
-                                    <option>Extrusora</option>
-                                    <option>Inyectora</option>
-                                    <option>CNC Plasma</option>
-                                    <option>CNC Router</option>
-                                    <option>Laser grabado</option>
-                                    <option>Escaner 3D</option>
-                                    <option>Comparador Óptico</option>
-                                    <option>Soldadora manual</option>
-                                    <option>Cortadora</option>
-                                    <option>Taladro banco</option>
-                                    <option>Esmeril</option>
-                                    <option>Banco</option>
-                                    <option>
-                                        Toda la herramienta semiautomática
-                                    </option>
-                                    <option>No aplica</option>
-                                </select-input>
+                            <Label>Maquinaria a utilizar: </Label>
+                            <div
+                                class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
+                            >
+                                <div class="flex flex-col max-w-xs">
+                                    <select-input
+                                        class="mb-3 w-full"
+                                        v-model="form.maq_usar"
+                                    >
+                                        <option v-for="maquina in maquinaria">
+                                            {{ maquina.nombre_producto }}
+                                        </option>
+                                    </select-input>
+                                    <div>
+                                        <JetButton
+                                            class=""
+                                            @click="
+                                                addElement(
+                                                    form.maq_usar,
+                                                    'maquinaria'
+                                                )
+                                            "
+                                            >Agregar
+                                        </JetButton>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        v-for="maquina in maq_usar"
+                                        class="flex flex-wrap space-x-2 ml-3 mb-1"
+                                    >
+                                        <span
+                                            class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                                        >
+                                            {{ maquina }}
+                                            <button
+                                                @click="
+                                                    removeElement(
+                                                        form.maq_usar,
+                                                        'maquinaria'
+                                                    )
+                                                "
+                                                class="bg-transparent hover focus:outline-none"
+                                            >
+                                                <svg
+                                                    aria-hidden="true"
+                                                    focusable="false"
+                                                    data-prefix="fas"
+                                                    data-icon="times"
+                                                    class="w-3 ml-3"
+                                                    role="img"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 352 512"
+                                                >
+                                                    <path
+                                                        fill="currentColor"
+                                                        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
 
-                            <Label>Instrumentos de medición a utilizar</Label>
-                            <select-input class="mb-3">
-                                <option value="">Cinta Metrica</option>
-                                <option value="">Flexometro</option>
-                            </select-input>
-                            <select-input class="mb-3">
-                                <option value="">Cinta Métrica</option>
-                                <option value="">Goniometro</option>
-                                <option value="">Luxometro</option>
-                                <option value="">Bascula</option>
-                                <option value="">Sonometro</option>
-                                <option value="">Vibrometro</option>
-                                <option value="">Picometro</option>
-                                <option value="">Camara Fotografica</option>
-                                <option value="">Cronometro</option>
-                            </select-input>
-                            <select-input class="mb-3">
-                                Calibrador</select-input
+                            <Label>Equipo de protección: </Label>
+                            <div
+                                class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
                             >
-                            <div class="mb-3">
+                                <div class="flex flex-col max-w-xs">
+                                    <select-input
+                                        class="mb-3 w-full"
+                                        v-model="form.equipo_prot"
+                                    >
+                                        <option
+                                            v-for="equipo in equipo_proteccion"
+                                        >
+                                            {{ equipo.nombre_producto }}
+                                        </option>
+                                    </select-input>
+                                    <div>
+                                        <JetButton
+                                            @click="
+                                                addElement(
+                                                    form.equipo_prot,
+                                                    'equipo_proteccion'
+                                                )
+                                            "
+                                            >Agregar
+                                        </JetButton>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        v-for="equipo in equipo_prot"
+                                        class="flex flex-wrap space-x-2 ml-3"
+                                    >
+                                        <span
+                                            class="px-4 mb-1 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                                        >
+                                            {{ equipo }}
+                                            <button
+                                                @click="
+                                                    removeElement(
+                                                        form.equipo_prot,
+                                                        'equipo_proteccion'
+                                                    )
+                                                "
+                                                class="bg-transparent hover focus:outline-none"
+                                            >
+                                                <svg
+                                                    aria-hidden="true"
+                                                    focusable="false"
+                                                    data-prefix="fas"
+                                                    data-icon="times"
+                                                    class="w-3 ml-3"
+                                                    role="img"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 352 512"
+                                                >
+                                                    <path
+                                                        fill="currentColor"
+                                                        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <Label class="mt-3"
+                                >Instrumentos de medición a utilizar</Label
+                            >
+                            <div
+                                class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
+                            >
+                                <div class="flex flex-col max-w-xs">
+                                    <select-input
+                                        class="mb-3 w-full"
+                                        v-model="form.inst_med"
+                                    >
+                                        <option
+                                            v-for="instrumento in instrumentos_medicion"
+                                        >
+                                            {{ instrumento.nombre_producto }}
+                                        </option>
+                                    </select-input>
+                                    <div>
+                                        <JetButton
+                                            @click="
+                                                addElement(
+                                                    form.inst_med,
+                                                    'instrumentos_medicion'
+                                                )
+                                            "
+                                            >Agregar
+                                        </JetButton>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        v-for="instrumento in instrumentos_med"
+                                        class="flex flex-wrap space-x-2 ml-3"
+                                    >
+                                        <span
+                                            class="px-4 mb-1 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                                        >
+                                            {{ instrumento }}
+                                            <button
+                                                @click="
+                                                    removeElement(
+                                                        form.inst_med,
+                                                        'instrumentos_medicion'
+                                                    )
+                                                "
+                                                class="bg-transparent hover focus:outline-none"
+                                            >
+                                                <svg
+                                                    aria-hidden="true"
+                                                    focusable="false"
+                                                    data-prefix="fas"
+                                                    data-icon="times"
+                                                    class="w-3 ml-3"
+                                                    role="img"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 352 512"
+                                                >
+                                                    <path
+                                                        fill="currentColor"
+                                                        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-3">
                                 <Label>Material Didactico</Label>
                                 <textarea
+                                    v-model="form.material_didactico"
                                     name=""
                                     id=""
                                     class="w-full border border-gray-300"
                                     rows="5"
                                 ></textarea>
                             </div>
-                            <Label>Herramientas Manuales a utilizar</Label>
-                            <select-input class="mb-3"></select-input>
-                            <select-input class="mb-3"></select-input>
-                            <select-input class="mb-3"></select-input>
-                            <select-input class="mb-3"></select-input>
-                            <Label>Herramientas Semiautomáticas</Label>
-                            <select-input class="mb-3"></select-input>
-                            <h2 class="text-lg font-semibold">Reglamento</h2>
-                            <textarea
-                                name=""
-                                id=""
-                                class="w-full border border-gray-300"
-                                rows="5"
-                            ></textarea>
+                            <Label class="mt-3"
+                                >Herramientas manuales a utilizar</Label
+                            >
+                            <div
+                                class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
+                            >
+                                <div class="flex flex-col max-w-xs">
+                                    <select-input
+                                        class="mb-3 w-full"
+                                        v-model="form.herr_man"
+                                    >
+                                        <option
+                                            v-for="herramienta in herramienta_manu"
+                                        >
+                                            {{ herramienta.nombre_producto }}
+                                        </option>
+                                    </select-input>
+                                    <div>
+                                        <JetButton
+                                            @click="
+                                                addElement(
+                                                    form.herr_man,
+                                                    'herramientas_manuales'
+                                                )
+                                            "
+                                            >Agregar
+                                        </JetButton>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        v-for="herramienta in herramientas_man"
+                                        class="flex flex-wrap space-x-2 ml-3"
+                                    >
+                                        <span
+                                            class="px-4 mb-1 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                                        >
+                                            {{ herramienta }}
+                                            <button
+                                                @click="
+                                                    removeElement(
+                                                        form.herr_man,
+                                                        'herramientas_manuales'
+                                                    )
+                                                "
+                                                class="bg-transparent hover focus:outline-none"
+                                            >
+                                                <svg
+                                                    aria-hidden="true"
+                                                    focusable="false"
+                                                    data-prefix="fas"
+                                                    data-icon="times"
+                                                    class="w-3 ml-3"
+                                                    role="img"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 352 512"
+                                                >
+                                                    <path
+                                                        fill="currentColor"
+                                                        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <Label>
-                                Recomendaciones de seguridad adicionales:
-                            </Label>
-                            <textarea
-                                name=""
-                                id=""
-                                class="w-full border border-gray-300"
-                                rows="5"
-                            ></textarea>
+                            <Label class="mt-3"
+                                >Herramientas mecanicas a utilizar</Label
+                            >
+                            <div
+                                class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
+                            >
+                                <div
+                                    class="flex flex-col max-w-xs overflow-auto"
+                                >
+                                    <select-input
+                                        class="mb-3 w-full"
+                                        v-model="form.herr_mec"
+                                    >
+                                        <option
+                                            v-for="herramienta in herramientas_mec"
+                                        >
+                                            {{ herramienta.nombre_producto }}
+                                        </option>
+                                    </select-input>
+                                    <div>
+                                        <JetButton
+                                            @click="
+                                                addElement(
+                                                    form.herr_mec,
+                                                    'herramientas_mec'
+                                                )
+                                            "
+                                            >Agregar
+                                        </JetButton>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        v-for="herramienta in herramientas_meca"
+                                        class="flex flex-wrap space-x-2 ml-3"
+                                    >
+                                        <span
+                                            class="px-4 mb-1 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                                        >
+                                            {{ herramienta }}
+                                            <button
+                                                @click="
+                                                    removeElement(
+                                                        form.herr_mec,
+                                                        'herramientas_mec'
+                                                    )
+                                                "
+                                                class="bg-transparent hover focus:outline-none"
+                                            >
+                                                <svg
+                                                    aria-hidden="true"
+                                                    focusable="false"
+                                                    data-prefix="fas"
+                                                    data-icon="times"
+                                                    class="w-3 ml-3"
+                                                    role="img"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 352 512"
+                                                >
+                                                    <path
+                                                        fill="currentColor"
+                                                        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold mt-3">
+                                    Reglamento
+                                </h2>
+                                <Label>
+                                    Recomendaciones de seguridad adicionales:
+                                </Label>
+                                <textarea
+                                    v-model="form.recom_seguridad"
+                                    name=""
+                                    id=""
+                                    class="w-full border border-gray-300"
+                                    rows="5"
+                                ></textarea>
+                            </div>
+
                             <h2 class="text-lg font-semibold mt-4">
                                 Desarrollo de la practica
                             </h2>
@@ -339,6 +757,7 @@ tr {
                                 <Label>Objetivo</Label>
                                 <textarea
                                     name=""
+                                    v-model="form.objetivo"
                                     id=""
                                     class="w-full border border-gray-300"
                                     rows="5"
@@ -349,6 +768,7 @@ tr {
                                 <textarea
                                     name=""
                                     id=""
+                                    v-model="form.pasos"
                                     class="w-full border border-gray-300"
                                     rows="5"
                                 ></textarea>
@@ -358,14 +778,25 @@ tr {
                                 <textarea
                                     name=""
                                     id=""
+                                    v-model="form.fuentes_info"
                                     class="w-full border border-gray-300"
                                     rows="5"
                                 ></textarea>
                             </div>
                             <div class="mb-3">
                                 <Label>Material digital de apoyo</Label>
-                                <input type="file" name="" id="" />
+                                <input
+                                    type="file"
+                                    v-on:change="form.file"
+                                    name=""
+                                    id=""
+                                />
                             </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <JetButton @click="store"
+                                >Enviar a revisión</JetButton
+                            >
                         </div>
                     </div>
                 </div>

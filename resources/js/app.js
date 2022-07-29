@@ -1,6 +1,6 @@
 import "./bootstrap";
 import "../css/app.css";
-
+import "tw-elements";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
@@ -13,9 +13,16 @@ import {
     faFileArrowUp,
     faPenRuler,
     faCalendarPlus,
+    faBusinessTime,
 } from "@fortawesome/free-solid-svg-icons";
 
-const icons = library.add(faVault, faFileArrowUp, faPenRuler, faCalendarPlus);
+const icons = library.add(
+    faVault,
+    faFileArrowUp,
+    faPenRuler,
+    faCalendarPlus,
+    faBusinessTime
+);
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";

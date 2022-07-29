@@ -14,7 +14,7 @@ import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
 const today = new Date();
 const fecha = today.toLocaleDateString("es-MX");
 const talleres = usePage().props.value.talleres;
-const practicas = computed(() => usePage().props.value.practicas);
+const practicas = computed(() => usePage().props.value.citas);
 const horariosOcupados = computed(() => usePage().props.value.horariosOcupados);
 const selectDate = ref("");
 const selectTaller = ref("");
@@ -41,7 +41,7 @@ function horarioOcupado(horario_id) {
 watch(selectDate, (newValue) => {
     console.log(newValue);
     Inertia.get(
-        "/crear-cita",
+        "/calendario",
         { taller_id: selectTaller.value, fecha: newValue },
         { preserveScroll: true, preserveState: true },
         150
@@ -50,7 +50,7 @@ watch(selectDate, (newValue) => {
 
 watch(selectTaller, (newTaller) => {
     Inertia.get(
-        "/crear-cita",
+        "/calendario",
         { taller_id: newTaller, fecha: form.fecha },
         { preserveScroll: true, preserveState: true },
         150
@@ -59,7 +59,7 @@ watch(selectTaller, (newTaller) => {
 
 function store() {
     if (confirm("¿Estás seguro de que quieres crear esta cita?")) {
-        Inertia.post("/practica/create", form, {
+        Inertia.post("/calendario", form, {
             preserveScroll: true,
             preserveState: true,
         });
