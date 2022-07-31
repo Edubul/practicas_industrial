@@ -34,12 +34,16 @@ function changeDate(e) {
     selectDate.value = form.fecha;
 }
 
+function changetest(event) {
+    selectTaller.value = event.target.value;
+    disabled.value = false;
+}
+
 function horarioOcupado(horario_id) {
     return horariosOcupados.value.some((h) => h.horario_id == horario_id);
 }
 
 watch(selectDate, (newValue) => {
-    console.log(newValue);
     Inertia.get(
         "/calendario",
         { taller_id: selectTaller.value, fecha: newValue },
@@ -49,6 +53,7 @@ watch(selectDate, (newValue) => {
 });
 
 watch(selectTaller, (newTaller) => {
+    console.log(newTaller);
     Inertia.get(
         "/calendario",
         { taller_id: newTaller, fecha: form.fecha },
@@ -105,7 +110,7 @@ function store() {
                                 value="Taller"
                                 class="font-bold text-lg"
                             />
-                            <select-option id="taller" v-model="form.taller">
+                            <select-option id="taller" @change="changetest">
                                 <option selected disabled>
                                     -- Seleccionar Taller --
                                 </option>
@@ -113,12 +118,6 @@ function store() {
                                     v-for="(taller, index) in talleres"
                                     :key="index"
                                     :value="taller.id"
-                                    @click="
-                                        [
-                                            (selectTaller = taller.id),
-                                            (disabled = false),
-                                        ]
-                                    "
                                 >
                                     {{ taller.nombre }}
                                 </option>

@@ -8,52 +8,66 @@ import JetButton from "@/Jetstream/Button.vue";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 import { ref, watch, computed } from "vue";
 import { Inertia } from "@inertiajs/inertia";
-const user = usePage().props.value.user;
+
+// Page props
+const titular = usePage().props.value.titular;
 const profesores_info = usePage().props.value.profesores;
 const materias = usePage().props.value.materias;
 const equipo_proteccion = usePage().props.value.equipo_proteccion;
 const instrumentos_medicion = usePage().props.value.instrumentos_medicion;
 const herramienta_manu = usePage().props.value.herramientas_man;
 const maquinaria = usePage().props.value.maquinaria;
-const maq_usar = ref([]);
-const equipo_prot = ref([]);
-const instrumentos_med = ref([]);
-const herramientas_man = ref([]);
-const herramientas_meca = ref([]);
-const profesores = ref([]);
+
+// Arrays
+const maq_usar = ref(usePage().props.value.maquinaria_array);
+const equipo_prot = ref(usePage().props.value.equipo_prot_array);
+const instrumentos_med = ref(usePage().props.value.inst_med_array);
+const herramientas_man = ref(
+    usePage().props.value.herramientas_man_array == null
+        ? []
+        : usePage().props.value.herramientas_man_array
+);
+const profesores = ref(usePage().props.value.profesores_array);
+
+// edit
+const practica_edit = usePage().props.value.practicas;
 
 const form = useForm({
-    profesores: null,
-    materia: null,
-    unidad: null,
-    tema: null,
-    nombre_practica: null,
-    atributo_egreso: null,
-    req_ub_op1: null,
-    req_ub_op2: null,
-    equipo_prot: null,
-    maq_usar: null,
-    inst_med: null,
-    material_didactico: null,
-    herr_man: null,
-    herr_mec: null,
-    recom_seguridad: null,
-    objetivo: null,
-    pasos: null,
-    fuentes_info: null,
-    material_apoyo: null,
+    profesores: practica_edit.profesores,
+    no_pract: practica_edit.clave_practica,
+    materia: practica_edit.materia,
+    unidad: practica_edit.unidad,
+    tema: practica_edit.tema,
+    nombre_practica: practica_edit.nombre_practica,
+    atributo_egreso: practica_edit.atributo_egreso,
+    req_ub_op1: practica_edit.req_ub_op1,
+    req_ub_op2: practica_edit.req_ub_op2,
+    equipo_prot: practica_edit.equipo_prot_array,
+    maq_usar: practica_edit.maq_usar,
+    inst_med: practica_edit.inst_med,
+    material_didactico: practica_edit.material_didactico,
+    herr_man: practica_edit.herr_man,
+    recom_seguridad: practica_edit.recom_seguridad,
+    objetivo: practica_edit.objetivo,
+    pasos: practica_edit.pasos,
+    fuentes_info: practica_edit.fuentes_info,
+    material_apoyo: practica_edit.material_apoyo,
 });
 
-function store() {
+function update() {
     form.equipo_prot = equipo_prot.value;
     form.maq_usar = maq_usar.value;
     form.inst_med = instrumentos_med.value;
     form.herr_man = herramientas_man.value;
-    form.herr_mec = herramientas_meca.value;
     form.profesores = profesores.value;
-    if (confirm("¿Está seguro de enviar la práctica?")) {
-        Inertia.post("/practica", form);
+    if (confirm("¿Está seguro de aceptar la práctica?")) {
+        Inertia.put(`/practica/${practica_edit.id}`, form);
+        Inertia.get(`/form2pdf/${practica_edit.id}`);
     }
+}
+
+function isIndividual() {
+    return profesores.value == null ? true : false;
 }
 
 function addElement(element, type) {
@@ -106,14 +120,9 @@ function removeElement(element, type) {
                 1
             );
             break;
-        case "herramientas_mec":
-            herramientas_meca.value.splice(
-                herramientas_meca.value.indexOf(element),
-                1
-            );
-            break;
         case "profesores":
             profesores.value.splice(profesores.value.indexOf(element), 1);
+            break;
     }
 }
 </script>
@@ -122,7 +131,7 @@ function removeElement(element, type) {
     <AppLayout title="Laboratorio">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Crear Práctica
+                Practica ID: {{ practica_edit.id }}
             </h2>
         </template>
         <div class="my-10">
@@ -141,6 +150,7 @@ function removeElement(element, type) {
                                         <li
                                             class="nav-item"
                                             role="presentation"
+                                            v-if="isIndividual()"
                                         >
                                             <a
                                                 href="#tabs-home3"
@@ -157,6 +167,7 @@ function removeElement(element, type) {
                                         <li
                                             class="nav-item"
                                             role="presentation"
+                                            v-else
                                         >
                                             <a
                                                 href="#tabs-profile3"
@@ -179,12 +190,14 @@ function removeElement(element, type) {
                                             class="tab-pane fade show active"
                                             id="tabs-home3"
                                             role="tabpanel"
+                                            v-if="isIndividual()"
                                             aria-labelledby="tabs-home-tab3"
                                         >
-                                            Titular: {{ user.last_name }}
-                                            {{ user.name }}
+                                            Titular: {{ titular.last_name }}
+                                            {{ titular.name }}
                                         </div>
                                         <div
+                                            v-else
                                             class="tab-pane fade"
                                             id="tabs-profile3"
                                             role="tabpanel"
@@ -233,9 +246,9 @@ function removeElement(element, type) {
                                                     class="block text-left"
                                                     style="max-width: 300px"
                                                 >
-                                                    <span class="text-gray-700"
-                                                        >Profesores</span
-                                                    >
+                                                    <span class="text-gray-700">
+                                                        Profesores
+                                                    </span>
                                                     <select
                                                         class="form-multiselect block w-full mt-1"
                                                         v-model="
@@ -273,12 +286,7 @@ function removeElement(element, type) {
                                 <h2 class="text-lg font-semibold">General</h2>
                                 <div class="flex justify-between">
                                     <div class="w-1/2">
-                                        <Label
-                                            >Materia:
-                                            <span class="text-red-600">
-                                                *
-                                            </span>
-                                        </Label>
+                                        <Label>Materia</Label>
                                         <select-input
                                             v-model="form.materia"
                                             class="w-full"
@@ -292,12 +300,7 @@ function removeElement(element, type) {
                                         </select-input>
                                     </div>
                                     <div class="w-1/2 ml-3">
-                                        <Label
-                                            >Unidad:
-                                            <span class="text-red-600">
-                                                *
-                                            </span>
-                                        </Label>
+                                        <Label>Unidad</Label>
                                         <JetInput
                                             v-model="form.unidad"
                                             type="text"
@@ -307,9 +310,7 @@ function removeElement(element, type) {
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <Label
-                                    >Tema: <span class="text-red-600"> * </span>
-                                </Label>
+                                <Label>Tema</Label>
                                 <JetInput
                                     v-model="form.tema"
                                     type="text"
@@ -320,12 +321,7 @@ function removeElement(element, type) {
                             <div class="mb-3">
                                 <div class="flex justify-between">
                                     <div class="w-1/2">
-                                        <Label
-                                            >Nombre de la Práctica:
-                                            <span class="text-red-600">
-                                                *
-                                            </span>
-                                        </Label>
+                                        <Label>Nombre de la practica</Label>
                                         <JetInput
                                             v-model="form.nombre_practica"
                                             type="text"
@@ -333,21 +329,17 @@ function removeElement(element, type) {
                                         />
                                     </div>
                                     <div class="w-1/2 ml-3">
-                                        <Label>No. de la Práctica: </Label>
+                                        <Label>No. de la practica</Label>
                                         <JetInput
+                                            v-model="form.no_pract"
                                             type="text"
-                                            placeholder="Deshabilitado"
-                                            class="w-full bg-gray-300"
-                                            disabled
+                                            class="w-full"
                                         />
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <Label
-                                    >Atributo de egreso:
-                                    <span class="text-red-600"> * </span>
-                                </Label>
+                                <Label>Atributo de egreso:</Label>
                                 <select-input v-model="form.atributo_egreso">
                                     <option>Calidad</option>
                                     <option>Manteminiento</option>
@@ -362,12 +354,7 @@ function removeElement(element, type) {
                                 <Label>Requerimientos de ubicacion</Label>
                                 <div class="flex">
                                     <div class="w-full">
-                                        <Label
-                                            >Opcion 1:
-                                            <span class="text-red-600">
-                                                *
-                                            </span>
-                                        </Label>
+                                        <Label>Opcion 1: </Label>
                                         <select-input v-model="form.req_ub_op1">
                                             Desarrollo de Capital Humano
                                             <option>Antropometría</option>
@@ -431,10 +418,7 @@ function removeElement(element, type) {
                             <h2 class="text-lg font-semibold">
                                 Maquinaria-Herramientas
                             </h2>
-                            <Label
-                                >Maquinaria a utilizar:
-                                <span class="text-red-600"> * </span>
-                            </Label>
+                            <Label>Maquinaria a utilizar: </Label>
                             <div
                                 class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
                             >
@@ -499,10 +483,7 @@ function removeElement(element, type) {
                                 </div>
                             </div>
 
-                            <Label
-                                >Equipo de protección:
-                                <span class="text-red-600"> * </span>
-                            </Label>
+                            <Label>Equipo de protección: </Label>
                             <div
                                 class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
                             >
@@ -569,7 +550,7 @@ function removeElement(element, type) {
                             </div>
 
                             <Label class="mt-3"
-                                >Instrumentos de medición a utilizar:</Label
+                                >Instrumentos de medición a utilizar</Label
                             >
                             <div
                                 class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
@@ -636,10 +617,7 @@ function removeElement(element, type) {
                                 </div>
                             </div>
                             <div class="mb-3 mt-3">
-                                <Label
-                                    >Material Didactico
-                                    <span class="text-red-600"> * </span>
-                                </Label>
+                                <Label>Material Didactico</Label>
                                 <textarea
                                     v-model="form.material_didactico"
                                     name=""
@@ -649,8 +627,8 @@ function removeElement(element, type) {
                                 ></textarea>
                             </div>
                             <Label class="mt-3"
-                                >Herramientas manuales a utilizar
-                            </Label>
+                                >Herramientas manuales a utilizar</Label
+                            >
                             <div
                                 class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
                             >
@@ -733,13 +711,10 @@ function removeElement(element, type) {
                             </div>
 
                             <h2 class="text-lg font-semibold mt-4">
-                                Desarrollo de la Práctica
+                                Desarrollo de la practica
                             </h2>
                             <div class="mb-3">
-                                <Label
-                                    >Objetivo:
-                                    <span class="text-red-600"> * </span>
-                                </Label>
+                                <Label>Objetivo</Label>
                                 <textarea
                                     name=""
                                     v-model="form.objetivo"
@@ -749,10 +724,7 @@ function removeElement(element, type) {
                                 ></textarea>
                             </div>
                             <div class="mb-3">
-                                <Label
-                                    >Pasos:
-                                    <span class="text-red-600"> * </span>
-                                </Label>
+                                <Label>Pasos</Label>
                                 <textarea
                                     name=""
                                     id=""
@@ -762,10 +734,7 @@ function removeElement(element, type) {
                                 ></textarea>
                             </div>
                             <div class="mb-3">
-                                <Label
-                                    >Fuentes de información:
-                                    <span class="text-red-600"> * </span>
-                                </Label>
+                                <Label>Fuentes de información</Label>
                                 <textarea
                                     name=""
                                     id=""
@@ -776,28 +745,46 @@ function removeElement(element, type) {
                             </div>
                             <div class="mb-3">
                                 <Label>Material digital de apoyo</Label>
-                                <input
-                                    type="file"
-                                    @input="
-                                        form.material_apoyo =
-                                            $event.target.files[0]
-                                    "
-                                    name=""
-                                    id=""
-                                />
-                                <progress
-                                    v-if="form.material_apoyo"
-                                    :value="form.progress.percentage"
-                                    max="100"
+                                <div
+                                    class="overflow-hidden"
+                                    v-if="form.material_apoyo != null"
                                 >
-                                    {{ form.progress.percentage }}%
-                                </progress>
+                                    <table class="min-w-full">
+                                        <thead class="bg-white border-b">
+                                            <tr>
+                                                <th
+                                                    scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                                                >
+                                                    {{ form.material_apoyo }}
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="text-sm font-medium text-gray-900 px-6 py-4 text-center"
+                                                >
+                                                    <a
+                                                        :href="`/material_apoyo/${form.material_apoyo} `"
+                                                        type="button"
+                                                        download
+                                                        class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out"
+                                                    >
+                                                        Descargar
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div v-else>No hay material de apoyo.</div>
                             </div>
                         </div>
                         <div class="flex justify-end">
-                            <JetButton @click="store"
-                                >Enviar a revisión</JetButton
+                            <JetButton
+                                @click="update()"
+                                class="bg-green-500 hover:bg-green-700"
                             >
+                                Aceptar Práctica
+                            </JetButton>
                         </div>
                     </div>
                 </div>

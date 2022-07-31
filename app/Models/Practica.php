@@ -10,6 +10,8 @@ class Practica extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'clave_practica',
         "profesores",
         "materia",
         "unidad",
@@ -27,5 +29,23 @@ class Practica extends Model
         "objetivo",
         "pasos",
         "fuentes_info",
+        "status",
+        'material_apoyo'
     ];
+
+    public function scopeFilter($query, array $params)
+    {
+        switch (($params['opcion'] ?? null)) {
+            case 'nombre_archivo':
+                $query->when($params['q'] ?? null, function ($query, $q) {
+                    $query->where('clave_practica', 'LIKE', "%{$q}%");
+                });
+                break;
+
+            case 'materia':
+                $query->when($params['q'] ?? null, function ($query, $q) {
+                    $query->where('materia', 'LIKE', "%{$q}%");
+                });
+        }
+    }
 }

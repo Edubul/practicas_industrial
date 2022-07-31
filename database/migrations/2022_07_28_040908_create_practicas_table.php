@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('practicas', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->string('clave_practica');
             $table->string('profesores')->nullable(true);
             $table->string('materia');
             $table->string('unidad');
@@ -34,6 +35,8 @@ return new class extends Migration
             $table->string('objetivo');
             $table->string('pasos');
             $table->string('fuentes_info');
+            $table->enum('status', ['Aprobado', 'Pendiente', 'Rechazado'])->default('Pendiente');
+            $table->string('material_apoyo')->nullable(true);
             $table->timestamps();
         });
     }

@@ -26,7 +26,7 @@ class PracticasRequest extends FormRequest
         return [
             'profesores' => [],
             'materia' => ['required'],
-            'unidad' => ['required'],
+            'unidad' => ['required', 'numeric'],
             'tema' => ['required'],
             'nombre_practica' => ['required'],
             'atributo_egreso' => ['required'],
@@ -42,7 +42,7 @@ class PracticasRequest extends FormRequest
             'objetivo' => ['required'],
             'pasos' => ['required'],
             'fuentes_info' => ['required'],
-            'file' => [],
+            'material_apoyo' => [],
         ];
     }
 

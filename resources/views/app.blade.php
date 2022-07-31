@@ -9,8 +9,9 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-    <script src="./TW-ELEMENTS-PATH/dist/js/index.min.js"></script>
+
     <!-- Scripts -->
+    <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
     @routes
     @vite('resources/js/app.js')
     @inertiaHead

@@ -1,7 +1,9 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-
+import FlashMessage from "@/Shared/FlashMessage.vue";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
+
+const user = usePage().props.value.user;
 </script>
 
 <template>
@@ -15,6 +17,7 @@ import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-xl sm:rounded-lg">
                     <div class="h-full flex flex-col bg-gray-100 shadow-xl">
+                        <flash-message />
                         <div
                             class="grid h-28 rounded-md divide-y divide-dashed hover:divide-solid justify-evenly m-3 mt-10 grid-cols-5"
                         >
@@ -86,8 +89,11 @@ import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
                                     </div>
                                 </Link>
                             </div>
-                            <div class="col-span-1 p-3">
-                                <Link :href="route('evidencia.create')">
+                            <div
+                                class="col-span-1 p-3"
+                                v-if="user.role === 'administrador'"
+                            >
+                                <Link :href="route('pendientes')">
                                     <div
                                         class="flex flex-col justify-center h-full items-center w-m bg-gray-200 rounded-md hover:bg-gray-300"
                                     >

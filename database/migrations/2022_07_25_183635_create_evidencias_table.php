@@ -13,19 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('archivos', function (Blueprint $table) {
+        Schema::create('evidencias', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('materia_id')->unsigned();
             $table->string('nombre');
             $table->string('url');
-            $table->boolean('aprobado')->default(false);
             $table->timestamps();
-        });
-
-
-        Schema::table('archivos', function (Blueprint $table) {
-            // FK
-            $table->foreign('materia_id')->references('id')->on('materias');
         });
     }
 
