@@ -53,7 +53,6 @@ watch(selectDate, (newValue) => {
 });
 
 watch(selectTaller, (newTaller) => {
-    console.log(newTaller);
     Inertia.get(
         "/calendario",
         { taller_id: newTaller, fecha: form.fecha },
@@ -110,7 +109,11 @@ function store() {
                                 value="Taller"
                                 class="font-bold text-lg"
                             />
-                            <select-option id="taller" @change="changetest">
+                            <select-option
+                                id="taller"
+                                v-model="form.taller"
+                                @change="changetest"
+                            >
                                 <option selected disabled>
                                     -- Seleccionar Taller --
                                 </option>
