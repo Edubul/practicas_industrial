@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable(false);
             $table->unsignedBigInteger('taller_id')->nullable(false);
             $table->unsignedBigInteger('horario_id')->nullable(false);
+            $table->string('practica');
             $table->date('fecha')->nullable(false);
             $table->timestamps();
         });

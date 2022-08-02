@@ -33,12 +33,20 @@ class CalendarioController extends Controller
             ->where('citas.taller_id', '=', Request::only('taller_id'))
             ->where('citas.fecha', '=', ($fecha ? Carbon::createFromFormat('d/m/Y', $fecha['fecha'])->format('Y/m/d') : Carbon::now()->format('Y/m/d')))
             ->get();
+
+        $practicas = Practica::select('practicas.nombre_practica', 'practicas.clave_practica', 'practicas.id')
+            ->where('practicas.status', '=', 'Aprobado')
+            // ->where('talleres.id', '=', Request::only('taller_id'))
+            ->get();
+
+        // dd($practicas);
         // dd(Request::all());
         return Inertia::render('Panel/Calendario', [
             'talleres' => $talleres,
             'citas' => $citas,
             'horarios' => $horarios,
             'horariosOcupados' => $horariosOcupados,
+            'practicas' => $practicas,
         ]);
     }
 
@@ -56,11 +64,12 @@ class CalendarioController extends Controller
         }
 
         if ($validated && $select->count() == 0) {
-
+            dd($request['practica']);
             Cita::create([
                 'user_id' => Auth::user()->id,
                 'taller_id' => $request['taller'],
                 'horario_id' => $request['horario'],
+                'practica' => $request['practica'],
                 'fecha' => $newDate,
             ]);
 

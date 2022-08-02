@@ -14,6 +14,7 @@ import JetValidationErrors from "@/Jetstream/ValidationErrors.vue";
 const today = new Date();
 const fecha = today.toLocaleDateString("es-MX");
 const talleres = usePage().props.value.talleres;
+const practicas2 = usePage().props.value.practicas;
 const practicas = computed(() => usePage().props.value.citas);
 const horariosOcupados = computed(() => usePage().props.value.horariosOcupados);
 const selectDate = ref("");
@@ -23,6 +24,7 @@ const form = useForm({
     fecha: fecha,
     taller: null,
     horario: null,
+    practica: null,
 });
 
 const horarios = usePage().props.value.horarios;
@@ -101,6 +103,26 @@ function store() {
                                 autofocus
                                 autocomplete="name"
                             />
+                        </div>
+
+                        <div class="flex flex-col h-full w-full md:w-1/6">
+                            <JetLabel
+                                for="horario"
+                                value="Práctica"
+                                class="font-bold text-lg"
+                            />
+                            <select-option id="horario" v-model="form.practica">
+                                <option selected disabled>
+                                    -- Seleccionar Horario --
+                                </option>
+                                <option
+                                    v-for="(practica, index) in practicas2"
+                                    :key="index"
+                                >
+                                    {{ practica.clave_practica }} -
+                                    {{ practica.nombre }}
+                                </option>
+                            </select-option>
                         </div>
 
                         <div class="flex flex-col h-full w-full md:w-1/6">
