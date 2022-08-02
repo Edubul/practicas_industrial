@@ -14,5 +14,6 @@ class Cita extends Model
         'taller_id',
         'horario_id',
         'fecha',
+        'practica',
     ];
 }
