@@ -806,13 +806,6 @@ function removeElement(element, type) {
                                     name=""
                                     id=""
                                 />
-                                <progress
-                                    v-if="form.material_apoyo"
-                                    :value="form.progress.percentage"
-                                    max="100"
-                                >
-                                    {{ form.progress.percentage }}%
-                                </progress>
                             </div>
                         </div>
                         <div class="flex justify-end">
