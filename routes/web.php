@@ -104,5 +104,3 @@ Route::middleware([
     Route::put('/practica/{id}', [PracticasController::class, 'update'])
         ->name('practicas.update');
 });
-
-Route::get('form2pdf/{practica_id}', [PracticasController::class, 'convertPDF']);

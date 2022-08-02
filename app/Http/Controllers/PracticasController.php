@@ -137,8 +137,7 @@ class PracticasController extends Controller
 
     public function update($practica_id)
     {
-
-        $practica = Practica::findOrFail($practica_id);
+        $info = Practica::findOrFail($practica_id);
         $request = Request::validate([
             'profesores' => [],
             'no_pract' => ['required'],
@@ -161,28 +160,38 @@ class PracticasController extends Controller
             'fuentes_info' => ['required'],
             'file' => [],
         ]);
-        // dd($request['no_pract']);
-        $practica->update([
-            'clave_practica' => $request['no_pract'],
-            'profesores' => ($request['profesores'] == null) ? null : serialize($request['profesores']),
-            'materia' => $request['materia'],
-            'unidad' => $request['unidad'],
-            'tema' => $request['tema'],
-            'nombre_practica' => $request['nombre_practica'],
-            'atributo_egreso' => $request['atributo_egreso'],
-            'req_ub_op1' => $request['req_ub_op1'],
-            'req_ub_op2' => $request['req_ub_op2'],
-            'equipo_prot' => serialize($request['equipo_prot']),
-            'maq_usar' => serialize($request['maq_usar']),
-            'inst_med' => serialize($request['inst_med']),
-            'material_didactico' => $request['material_didactico'],
-            'herr_man' => serialize($request['herr_man']),
-            'recom_seguridad' => $request['recom_seguridad'],
-            'objetivo' => $request['objetivo'],
-            'pasos' => $request['pasos'],
-            'status' => 'Aprobado',
-            'fuentes_info' => $request['fuentes_info'],
-        ]);
+        if ($request) {
+            $info->update([
+                'clave_practica' => $request['no_pract'],
+                'profesores' => ($request['profesores'] == null) ? null : serialize($request['profesores']),
+                'materia' => $request['materia'],
+                'unidad' => $request['unidad'],
+                'tema' => $request['tema'],
+                'nombre_practica' => $request['nombre_practica'],
+                'atributo_egreso' => $request['atributo_egreso'],
+                'req_ub_op1' => $request['req_ub_op1'],
+                'req_ub_op2' => $request['req_ub_op2'],
+                'equipo_prot' => serialize($request['equipo_prot']),
+                'maq_usar' => serialize($request['maq_usar']),
+                'inst_med' => serialize($request['inst_med']),
+                'material_didactico' => $request['material_didactico'],
+                'herr_man' => serialize($request['herr_man']),
+                'recom_seguridad' => $request['recom_seguridad'],
+                'objetivo' => $request['objetivo'],
+                'pasos' => $request['pasos'],
+                'status' => 'Aprobado',
+                'fuentes_info' => $request['fuentes_info'],
+            ]);
+            $pdf = app('dompdf.wrapper');
+            $pdf->getDomPDF()->set_option("enable_php", true);
+            $pdf->setOptions(['isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true]);
+            $pdf->loadView('report', compact('info'));
+            $pdf->save(public_path() . '/practicas/' . $request['no_pract'] . '.pdf');
+
+            return Redirect::route('panel')->with('success', 'Practica aprobada, se ha generado un pdf disponible en el banco de pr');
+        } else {
+            return Redirect::route('panel')->with('error', 'Error al aprobar la practica');
+        }
     }
 
     public function pendientes()
@@ -203,16 +212,5 @@ class PracticasController extends Controller
         // dd($archivos_aprobados);
 
         return Inertia::render('Panel/BancoPracticas', ['filters' => Request::all('search', 'opcion'), 'archivos' => $archivos_aprobados]);
-    }
-
-    public function convertPDF($practica_id)
-    {
-        $info = Practica::findOrFail($practica_id);
-        $pdf = app('dompdf.wrapper');
-        $pdf->getDomPDF()->set_option("enable_php", true);
-        $pdf->setOptions(['isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true]);
-        $pdf->loadView('report', compact('info'));
-        $pdf->save(public_path() . '/practicas/' . $info->clave_practica . '.pdf');
-        return Redirect::route('panel')->with('success', 'Practica aprobada, ahora se encuentra disponible en el banco de prácticas.');
     }
 }

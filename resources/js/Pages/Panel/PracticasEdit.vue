@@ -63,7 +63,6 @@ function update() {
     form.profesores = profesores.value;
     if (confirm("¿Está seguro de aceptar la práctica?")) {
         Inertia.put(`/practica/${practica_edit.id}`, form);
-        Inertia.get(`/form2pdf/${practica_edit.id}`);
     }
 }
 

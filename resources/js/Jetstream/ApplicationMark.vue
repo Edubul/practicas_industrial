@@ -4,7 +4,7 @@
             class="
         "
         >
-            <img src="/storage/logo_lii.png" alt="" class="mx-auto my-auto" />
+            <img src="/img/logo_lii.png" alt="" class="mx-auto my-auto" />
         </div>
     </template>
 </template>
