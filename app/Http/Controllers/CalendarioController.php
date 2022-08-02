@@ -64,7 +64,7 @@ class CalendarioController extends Controller
         }
 
         if ($validated && $select->count() == 0) {
-            dd($request['practica']);
+            // dd($request['practica']);
             Cita::create([
                 'user_id' => Auth::user()->id,
                 'taller_id' => $request['taller'],
