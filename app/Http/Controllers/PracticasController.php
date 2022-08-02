@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class PracticasController extends Controller
@@ -212,8 +212,7 @@ class PracticasController extends Controller
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->setOptions(['isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true]);
         $pdf->loadView('report', compact('info'));
-        $pdf->save(public_path() . '/storage/practicas/' . $info->clave_practica . '.pdf');
-
+        $pdf->save(public_path() . '/practicas/' . $info->clave_practica . '.pdf');
         return Redirect::route('panel')->with('success', 'Practica aprobada, ahora se encuentra disponible en el banco de prácticas.');
     }
 }

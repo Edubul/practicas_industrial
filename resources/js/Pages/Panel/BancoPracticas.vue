@@ -21,7 +21,7 @@ const form = useForm({
     opcion: props.filters.opcion,
 });
 function seleccionarPractica(nombre_practica, material_apoyo_name) {
-    archivo_select.value = "/storage/practicas/" + nombre_practica + ".pdf";
+    archivo_select.value = "/practicas/" + nombre_practica + ".pdf";
 
     if (material_apoyo_name != null) {
         material_apoyo.value = "/material_apoyo/" + material_apoyo_name;

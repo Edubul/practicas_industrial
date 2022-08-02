@@ -343,7 +343,7 @@ const logout = () => {
                             :href="route('panel')"
                             :active="route().current('panel')"
                         >
-                            crear-cita
+                            Panel Principal
                         </JetResponsiveNavLink>
                     </div>
 

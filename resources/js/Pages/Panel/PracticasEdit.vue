@@ -52,6 +52,7 @@ const form = useForm({
     pasos: practica_edit.pasos,
     fuentes_info: practica_edit.fuentes_info,
     material_apoyo: practica_edit.material_apoyo,
+    status: practica_edit.status,
 });
 
 function update() {
@@ -780,10 +781,19 @@ function removeElement(element, type) {
                         </div>
                         <div class="flex justify-end">
                             <JetButton
+                                v-if="form.status == 'Aprobado'"
                                 @click="update()"
                                 class="bg-green-500 hover:bg-green-700"
                             >
                                 Aceptar Práctica
+                            </JetButton>
+                            <JetButton
+                                v-else
+                                disabled
+                                @click="reject()"
+                                class="bg-gray-500"
+                            >
+                                Practica Aprobada
                             </JetButton>
                         </div>
                     </div>
