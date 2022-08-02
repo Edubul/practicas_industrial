@@ -781,7 +781,7 @@ function removeElement(element, type) {
                         </div>
                         <div class="flex justify-end">
                             <JetButton
-                                v-if="form.status == 'Aprobado'"
+                                v-if="form.status == 'Pendiente'"
                                 @click="update()"
                                 class="bg-green-500 hover:bg-green-700"
                             >
