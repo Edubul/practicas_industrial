@@ -57,10 +57,10 @@ blankdays.value = blankdaysArray;
 no_of_days.value = daysArray;
 
 function getNoOfDays() {
-    let daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
+    let daysInMonth = new Date(year.value, month.value + 1, 0).getDate();
 
     // find where to start calendar day of week
-    let dayOfWeek = new Date(this.year, this.month).getDay();
+    let dayOfWeek = new Date(year.value, month.value).getDay();
     let blankdaysArray = [];
     for (var i = 1; i <= dayOfWeek; i++) {
         blankdaysArray.push(i);
@@ -71,8 +71,8 @@ function getNoOfDays() {
         daysArray.push(i);
     }
 
-    this.blankdays = blankdaysArray;
-    this.no_of_days = daysArray;
+    blankdays.value = blankdaysArray;
+    no_of_days.value = daysArray;
 }
 
 function isToday(date) {
