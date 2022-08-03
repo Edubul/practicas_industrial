@@ -380,6 +380,7 @@ function removeElement(element, type) {
                                             <option>
                                                 Aula de clases asignada
                                             </option>
+                                            <option>Taller Secundario</option>
                                         </select-input>
                                     </div>
 
@@ -492,11 +493,33 @@ function removeElement(element, type) {
                                         class="mb-3 w-full"
                                         v-model="form.equipo_prot"
                                     >
-                                        <option
-                                            v-for="equipo in equipo_proteccion"
-                                        >
-                                            {{ equipo.nombre_producto }}
+                                        <option>Tapones auditivos</option>
+                                        <option>
+                                            Gafa de seguridad transparente
                                         </option>
+                                        <option>Zapato cerrado</option>
+                                        <option>Bota industrial</option>
+                                        <option>
+                                            Gafa de seguridad 5 sombras
+                                        </option>
+                                        <option>Careta para soldar</option>
+                                        <option>Mandil para soldar</option>
+                                        <option>Guantes de nitrilo</option>
+                                        <option>
+                                            Guantes recubiertos de latex
+                                        </option>
+                                        <option>
+                                            Guantes resistentes a cortes
+                                        </option>
+                                        <option>Guantes de Polietileno</option>
+                                        <option>
+                                            Guantes de algodón para inspección
+                                        </option>
+                                        <option>Guantes de piel</option>
+                                        <option>Guantes para soldar</option>
+                                        <option>Mangas para soldar</option>
+                                        <option>Casco</option>
+                                        <option>No Aplica</option>
                                     </select-input>
                                     <div>
                                         <JetButton
@@ -788,11 +811,10 @@ function removeElement(element, type) {
                             </JetButton>
                             <JetButton
                                 v-else
-                                disabled
-                                @click="reject()"
-                                class="bg-gray-500"
+                                @click="update()"
+                                class="bg-green-500 hover:bg-green-700"
                             >
-                                Practica Aprobada
+                                Editar Práctica
                             </JetButton>
                         </div>
                     </div>

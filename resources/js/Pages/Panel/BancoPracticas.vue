@@ -53,9 +53,9 @@ watch(form, (newValue) => {
                 <div class="bg-white shadow-xl sm:rounded-lg">
                     <div class="h-full flex flex-col bg-gray-200 shadow-xl">
                         <div
-                            class="grid rounded-md divide-y divide-dashed hover:divide-solid justify-evenly p-5 grid-cols-5 bg-white gap-5"
+                            class="grid rounded-md p-5 grid-cols-5 bg-white gap-5"
                         >
-                            <div class="col-span-2">
+                            <div class="col-span-5 md:col-span-2">
                                 <div class="bg-gray-100 p-4 h-full">
                                     <div class="max-w-5xl m-auto">
                                         <h1
@@ -171,7 +171,7 @@ watch(form, (newValue) => {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-span-3">
+                            <div class="col-span-5 md:col-span-3">
                                 <embed
                                     :src="archivo_select"
                                     width="100%"

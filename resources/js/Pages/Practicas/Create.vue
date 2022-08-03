@@ -393,6 +393,7 @@ function removeElement(element, type) {
                                             <option>
                                                 Aula de clases asignada
                                             </option>
+                                            <option>Taller Secundario</option>
                                         </select-input>
                                     </div>
 
@@ -537,6 +538,7 @@ function removeElement(element, type) {
                                         <option>Guantes para soldar</option>
                                         <option>Mangas para soldar</option>
                                         <option>Casco</option>
+                                        <option>No Aplica</option>
                                     </select-input>
                                     <div>
                                         <JetButton
