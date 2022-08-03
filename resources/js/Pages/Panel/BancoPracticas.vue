@@ -172,11 +172,17 @@ watch(form, (newValue) => {
                                 </div>
                             </div>
                             <div class="col-span-5 md:col-span-3">
-                                <embed
+                                <iframe
                                     :src="archivo_select"
-                                    width="100%"
+                                    class="w-full"
                                     height="600px"
-                                />
+                                >
+                                    <!-- <embed
+                                        
+                                        width="100%"
+                                        height="600px"
+                                    /> -->
+                                </iframe>
 
                                 <br />
                                 <div v-if="material_apoyo_nombre != ''">
