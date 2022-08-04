@@ -122,6 +122,15 @@ const submit = () => {
                             </div>
                         </form>
 
+                        <p class="mt-6 text-sm text-center text-white">
+                            <a :href="route('evidencia.create')"
+                                >¿Eres Alumno?
+                                <span class="text-blue-300">
+                                    Sube tu evidencia aquí
+                                </span>
+                            </a>
+                        </p>
+
                         <p class="mt-6 text-sm text-center text-gray-800">
                             Desarrollado por Servicio Social ITP
                         </p>

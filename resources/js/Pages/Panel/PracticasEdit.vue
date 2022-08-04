@@ -198,10 +198,10 @@ function removeElement(element, type) {
                                         </div>
                                         <div
                                             v-else
-                                            class="tab-pane fade"
-                                            id="tabs-profile3"
+                                            class="tab-pane fade show active"
+                                            id="tabs-home3"
                                             role="tabpanel"
-                                            aria-labelledby="tabs-profile-tab3"
+                                            aria-labelledby="tabs-home-tab3"
                                         >
                                             <p>Lista de profesores</p>
 
@@ -430,6 +430,9 @@ function removeElement(element, type) {
                                     >
                                         <option v-for="maquina in maquinaria">
                                             {{ maquina.nombre_producto }}
+                                        </option>
+                                        <option value="No Aplica">
+                                            No Aplica
                                         </option>
                                     </select-input>
                                     <div>

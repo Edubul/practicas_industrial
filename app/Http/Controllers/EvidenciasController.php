@@ -25,7 +25,7 @@ class EvidenciasController extends Controller
                 return Redirect::back()->with('error', 'Ya existe este archivo.');
 
 
-            $evidencia->move('/storage/evidencias/', $fileName);
+            $evidencia->move(public_path() . '/evidencias/', $fileName);
             Evidencias::create([
                 'nombre' => $fileName,
                 'url' => '/evidencias/' . $fileName,

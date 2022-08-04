@@ -188,7 +188,7 @@ class PracticasController extends Controller
             $pdf->loadView('report', compact('info'));
             $pdf->save(public_path() . '/practicas/' . $request['no_pract'] . '.pdf');
 
-            return Redirect::route('panel')->with('success', 'Practica aprobada, se ha generado un pdf disponible en el banco de pr');
+            return Redirect::route('panel')->with('success', 'Practica aprobada, se ha generado un pdf disponible en el banco de practicas');
         } else {
             return Redirect::route('panel')->with('error', 'Error al aprobar la practica');
         }

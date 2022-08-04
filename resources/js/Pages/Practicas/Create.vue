@@ -447,6 +447,9 @@ function removeElement(element, type) {
                                         <option v-for="maquina in maquinaria">
                                             {{ maquina.nombre_producto }}
                                         </option>
+                                        <option value="No Aplica">
+                                            No Aplica
+                                        </option>
                                     </select-input>
                                     <div>
                                         <JetButton
