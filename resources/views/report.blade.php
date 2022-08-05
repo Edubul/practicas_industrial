@@ -151,7 +151,15 @@
             </tr>
             <tr>
                 <td class="tg-fymr">Pasos</td>
-                <td class="tg-0pky" colspan="3"> {{$info->pasos}}</td>
+                <td class="tg-0pky" colspan="3">
+                    <ul style="list-style-type: none;">
+                        <?php
+                        $pasos = preg_split('/\r\n|\r|\n/', $info->pasos);
+                        ?>
+                        @for($i = 0; $i < sizeof($pasos); $i++) <li>{{$pasos[$i]}}</li>
+                            @endfor
+                    </ul>
+                </td>
             </tr>
             <tr>
                 <td class="tg-fymr">Fuentes de información</td>
