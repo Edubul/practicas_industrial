@@ -150,6 +150,10 @@
                 <td class="tg-0pky" colspan="3"> {{$info->objetivo}}</td>
             </tr>
             <tr>
+                <td class="tg-fymr">Pasos</td>
+                <td class="tg-0pky" colspan="3"> {{$info->pasos}}</td>
+            </tr>
+            <tr>
                 <td class="tg-fymr">Fuentes de información</td>
                 <td class="tg-0pky" colspan="3">{{$info->fuentes_info}}</td>
             </tr>
