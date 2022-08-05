@@ -1,6 +1,6 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-
+import Pagination from "@/Shared/Pagination.vue";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 
 const practicas = usePage().props.value.practicas;
@@ -58,7 +58,7 @@ console.log(practicas.status);
                                         <tbody>
                                             <tr
                                                 class="border-b"
-                                                v-for="practica in practicas"
+                                                v-for="practica in practicas.data"
                                             >
                                                 <td
                                                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -121,6 +121,10 @@ console.log(practicas.status);
                                         </tbody>
                                     </table>
                                 </div>
+                                <pagination
+                                    class="mt-6 p-3"
+                                    :links="practicas.links"
+                                />
                             </div>
                         </div>
                     </div>

@@ -197,7 +197,8 @@ class PracticasController extends Controller
     public function pendientes()
     {
         $practicas = Practica::select(['users.name', 'users.last_name', 'practicas.id', 'profesores', 'status', 'materia', 'tema', 'atributo_egreso'])
-            ->join('users', 'users.id', '=', 'practicas.user_id')->get();
+            ->join('users', 'users.id', '=', 'practicas.user_id')
+            ->paginate(15);
 
         return Inertia::render('Panel/PracticasPendientes', [
             'practicas' => $practicas,
@@ -208,7 +209,7 @@ class PracticasController extends Controller
     {
         $archivos_aprobados = Practica::where('status', '=', 'Aprobado')
             ->filter(Request::only('q', 'opcion'))
-            ->get();
+            ->paginate(15);
         // dd($archivos_aprobados);
 
         return Inertia::render('Panel/BancoPracticas', ['filters' => Request::all('search', 'opcion'), 'archivos' => $archivos_aprobados]);

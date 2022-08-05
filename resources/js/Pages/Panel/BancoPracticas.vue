@@ -1,9 +1,6 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import JetLabel from "@/Jetstream/Label.vue";
-import JetInput from "@/Jetstream/Input.vue";
-import JetButton from "@/Jetstream/Button.vue";
-import SearchFilter from "@/Shared/SearchFilter.vue";
+import Pagination from "@/Shared/Pagination.vue";
 import { usePage, useForm } from "@inertiajs/inertia-vue3";
 import { ref, watch, computed } from "vue";
 import { Inertia } from "@inertiajs/inertia";
@@ -156,7 +153,7 @@ watch(form, (newValue) => {
                                                 class="px-4 cursor-pointer py-2 bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out"
                                                 v-for="(
                                                     archivo, index
-                                                ) in archivos"
+                                                ) in archivos.data"
                                                 @click="
                                                     seleccionarPractica(
                                                         archivo.clave_practica,
@@ -229,6 +226,10 @@ watch(form, (newValue) => {
                                                         </thead>
                                                     </table>
                                                 </div>
+                                                <pagination
+                                                    class="mt-6"
+                                                    :links="archivos.links"
+                                                />
                                             </div>
                                         </div>
                                     </div>
