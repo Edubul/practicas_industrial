@@ -21,10 +21,13 @@ const instrumentos_med = ref([]);
 const herramientas_man = ref([]);
 const herramientas_meca = ref([]);
 const profesores = ref([]);
+const integrador_materias = ref([]);
+const integrador = ref(false);
 
 const form = useForm({
     profesores: null,
     materia: null,
+    materias: null,
     unidad: null,
     tema: null,
     nombre_practica: null,
@@ -51,6 +54,7 @@ function store() {
     form.herr_man = herramientas_man.value;
     form.herr_mec = herramientas_meca.value;
     form.profesores = profesores.value;
+    form.materias = integrador_materias.value;
     if (confirm("¿Está seguro de enviar la práctica?")) {
         Inertia.post("/practica", form);
     }
@@ -83,6 +87,12 @@ function addElement(element, type) {
             profesores.value.find((e) => e == element)
                 ? alert("Ya se ha agregado este profesor")
                 : profesores.value.push(element);
+            break;
+        case "integrador":
+            integrador_materias.value.find((e) => e == element)
+                ? alert("Ya se ha agregado esta materia")
+                : integrador_materias.value.push(element);
+            break;
     }
 }
 
@@ -114,7 +124,18 @@ function removeElement(element, type) {
             break;
         case "profesores":
             profesores.value.splice(profesores.value.indexOf(element), 1);
+            break;
+
+        case "integrador":
+            integrador_materias.value.splice(
+                integrador_materias.value.indexOf(element),
+                1
+            );
     }
+}
+
+function changeIntegrador() {
+    integrador.value = true;
 }
 </script>
 
@@ -141,6 +162,7 @@ function removeElement(element, type) {
                                         <li
                                             class="nav-item"
                                             role="presentation"
+                                            @click="integrador = false"
                                         >
                                             <a
                                                 href="#tabs-home3"
@@ -157,6 +179,7 @@ function removeElement(element, type) {
                                         <li
                                             class="nav-item"
                                             role="presentation"
+                                            @click="integrador = false"
                                         >
                                             <a
                                                 href="#tabs-profile3"
@@ -168,6 +191,23 @@ function removeElement(element, type) {
                                                 aria-controls="tabs-profile3"
                                                 aria-selected="false"
                                                 >Colegiada</a
+                                            >
+                                        </li>
+                                        <li
+                                            class="nav-item"
+                                            role="presentation"
+                                            @click="changeIntegrador"
+                                        >
+                                            <a
+                                                href="#tabs-profile3"
+                                                class="nav-link w-full block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
+                                                id="tabs-profile-tab3"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#tabs-profile3"
+                                                role="tab"
+                                                aria-controls="tabs-profile3"
+                                                aria-selected="false"
+                                                >Integradora</a
                                             >
                                         </li>
                                     </ul>
@@ -425,6 +465,80 @@ function removeElement(element, type) {
                                                 Aula de clases asignada
                                             </option>
                                         </select-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-if="integrador">
+                                <h2 class="text-lg font-semibold">Materias</h2>
+                                <Label
+                                    >Materias a agregar:
+                                    <span class="text-red-600"> * </span>
+                                </Label>
+                                <div
+                                    class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
+                                >
+                                    <div class="flex flex-col max-w-xs">
+                                        <select-input
+                                            class="mb-3 w-full"
+                                            v-model="form.materias"
+                                        >
+                                            <option v-for="materia in materias">
+                                                {{ materia.nombre }}
+                                            </option>
+                                            <option value="No Aplica">
+                                                No Aplica
+                                            </option>
+                                        </select-input>
+                                        <div>
+                                            <JetButton
+                                                class=""
+                                                @click="
+                                                    addElement(
+                                                        form.materias,
+                                                        'integrador'
+                                                    )
+                                                "
+                                                >Agregar
+                                            </JetButton>
+                                        </div>
+                                    </div>
+                                    <div class="overflow-auto">
+                                        <div
+                                            v-for="materia in integrador_materias"
+                                            class="flex flex-wrap space-x-2 ml-3 mb-1"
+                                        >
+                                            <span
+                                                class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                                            >
+                                                {{ materia }}
+                                                <button
+                                                    @click="
+                                                        removeElement(
+                                                            form.materias,
+                                                            'integrador'
+                                                        )
+                                                    "
+                                                    class="bg-transparent hover focus:outline-none"
+                                                >
+                                                    <svg
+                                                        aria-hidden="true"
+                                                        focusable="false"
+                                                        data-prefix="fas"
+                                                        data-icon="times"
+                                                        class="w-3 ml-3"
+                                                        role="img"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 352 512"
+                                                    >
+                                                        <path
+                                                            fill="currentColor"
+                                                            d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                                        ></path>
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

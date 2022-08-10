@@ -34,8 +34,8 @@ const props = defineProps({
 });
 
 function dayDisabled(date) {
-    console.log("date: " + date);
-    console.log("day: " + day.value);
+    // console.log("date: " + date);
+    // console.log("day: " + day.value);
     return date <= day.value ? true : false;
 }
 

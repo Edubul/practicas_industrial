@@ -41,16 +41,13 @@ class PracticasController extends Controller
         $instrumentos_medicion = Productos::select(['id', 'nombre_producto'])->where('categoria_id', '=', 8)->groupBy('nombre_producto')->orderBy('nombre_producto')->get();
         $materias = Materias::all();
 
-
+        $materias_integradoras = Practica::find($id)->materias_integradoras;
         $profesores_array = Practica::select('profesores')->where('id', '=', $id)->get();
         $herramientas_man_array = Practica::select('herr_man')->where('id', '=', $id)->get();
         $maquinaria_array = Practica::select('maq_usar')->where('id', '=', $id)->get();
         $inst_med_array = Practica::select('inst_med')->where('id', '=', $id)->get();
         $equipo_prot_array = Practica::select('equipo_prot')->where('id', '=', $id)->get();
         $material_apoyo = Practica::select('material_apoyo')->where('id', '=', $id)->get();
-
-        // dd($maquinaria_array);
-
         return Inertia::render('Panel/PracticasEdit', [
             'materias' => $materias,
             'equipo_proteccion' => $equipo_proteccion,
@@ -60,6 +57,7 @@ class PracticasController extends Controller
             'maquinaria' => $maquinaria,
             'profesores' => $profesores,
             'practicas' => $practicas_edit,
+            'materias_integradoras' => (isset($materias_integradoras) ? unserialize($materias_integradoras) : null),
             'profesores_array' => (isset($profesores_array[0]->profesores) ? unserialize($profesores_array[0]->profesores) : null),
             'herramientas_man_array' => (isset($herramientas_man_array[0]->herr_man) ? unserialize($herramientas_man_array[0]->herr_man) : null),
             'inst_med_array' => (isset($inst_med_array[0]->inst_med) ? unserialize($inst_med_array[0]->inst_med) : null),
@@ -77,7 +75,7 @@ class PracticasController extends Controller
         $herramientas_mec = Productos::where('categoria_id', 6)->groupBy('nombre_producto')->orderBy('nombre_producto')->get();
         $instrumentos_medicion = Productos::select(['id', 'nombre_producto'])->where('categoria_id', '=', 8)->groupBy('nombre_producto')->orderBy('nombre_producto')->get();
         $maquinaria = Productos::where('categoria_id', 11)->groupBy('nombre_producto')->orderBy('nombre_producto')->get();
-        $materias = Materias::all();
+        $materias = Materias::orderBy('nombre')->get();
         $profesores = User::where('role', '=', 'profesor')->orderBy('last_name')->get();
 
         return Inertia::render('Practicas/Create', [
@@ -96,6 +94,8 @@ class PracticasController extends Controller
     {
 
         $validate = $request->validated();
+
+        // dd($validate);
         if ($validate) {
 
             if ($request->hasFile('material_apoyo')) {
@@ -110,6 +110,7 @@ class PracticasController extends Controller
                 'user_id' => Auth::user()->id,
                 'profesores' => ($request->profesores == null) ? null : serialize($request->profesores),
                 'materia' => $request->materia,
+                'materias_integradoras' => ($request->materias == null) ? null : serialize($request->materias),
                 'unidad' => $request->unidad,
                 'tema' => $request->tema,
                 'nombre_practica' => $request->nombre_practica,
@@ -142,6 +143,7 @@ class PracticasController extends Controller
             'profesores' => [],
             'no_pract' => ['required'],
             'materia' => ['required'],
+            'materias' => [],
             'unidad' => ['required'],
             'tema' => ['required'],
             'nombre_practica' => ['required'],
@@ -165,6 +167,7 @@ class PracticasController extends Controller
                 'clave_practica' => $request['no_pract'],
                 'profesores' => ($request['profesores'] == null) ? null : serialize($request['profesores']),
                 'materia' => $request['materia'],
+                'materias_integradoras' => serialize($request['materias']),
                 'unidad' => $request['unidad'],
                 'tema' => $request['tema'],
                 'nombre_practica' => $request['nombre_practica'],
@@ -196,7 +199,7 @@ class PracticasController extends Controller
 
     public function pendientes()
     {
-        $practicas = Practica::select(['users.name', 'users.last_name', 'practicas.id', 'profesores', 'status', 'materia', 'tema', 'atributo_egreso'])
+        $practicas = Practica::select(['users.name', 'users.last_name', 'practicas.id', 'profesores', 'status', 'materia', 'materias_integradoras', 'tema', 'atributo_egreso'])
             ->join('users', 'users.id', '=', 'practicas.user_id')
             ->paginate(15);
 

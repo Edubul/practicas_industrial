@@ -17,11 +17,14 @@ const equipo_proteccion = usePage().props.value.equipo_proteccion;
 const instrumentos_medicion = usePage().props.value.instrumentos_medicion;
 const herramienta_manu = usePage().props.value.herramientas_man;
 const maquinaria = usePage().props.value.maquinaria;
+const materias_integradoras = usePage().props.value.materias_integradoras;
 
 // Arrays
 const maq_usar = ref(usePage().props.value.maquinaria_array);
 const equipo_prot = ref(usePage().props.value.equipo_prot_array);
 const instrumentos_med = ref(usePage().props.value.inst_med_array);
+const integradoras = ref(usePage().props.value.materias_integradoras);
+
 const herramientas_man = ref(
     usePage().props.value.herramientas_man_array == null
         ? []
@@ -36,6 +39,7 @@ const form = useForm({
     profesores: practica_edit.profesores,
     no_pract: practica_edit.clave_practica,
     materia: practica_edit.materia,
+    materias: practica_edit.materias_integradoras,
     unidad: practica_edit.unidad,
     tema: practica_edit.tema,
     nombre_practica: practica_edit.nombre_practica,
@@ -61,6 +65,7 @@ function update() {
     form.inst_med = instrumentos_med.value;
     form.herr_man = herramientas_man.value;
     form.profesores = profesores.value;
+    form.materias = integradoras.value;
     if (confirm("¿Está seguro de aceptar la práctica?")) {
         Inertia.put(`/practica/${practica_edit.id}`, form);
     }
@@ -97,6 +102,11 @@ function addElement(element, type) {
             profesores.value.find((e) => e == element)
                 ? alert("Ya se ha agregado este profesor")
                 : profesores.value.push(element);
+        case "integrador":
+            integradoras.value.find((e) => e == element)
+                ? alert("Ya se ha agregado esta materia")
+                : integradoras.value.push(element);
+            break;
     }
 }
 
@@ -122,6 +132,9 @@ function removeElement(element, type) {
             break;
         case "profesores":
             profesores.value.splice(profesores.value.indexOf(element), 1);
+            break;
+        case "integrador":
+            integradoras.value.splice(integradoras.value.indexOf(element), 1);
             break;
     }
 }
@@ -164,10 +177,30 @@ function removeElement(element, type) {
                                                 >Individual</a
                                             >
                                         </li>
+
                                         <li
                                             class="nav-item"
                                             role="presentation"
+                                            v-else-if="
+                                                materias_integradoras != null
+                                            "
+                                        >
+                                            <a
+                                                href="#tabs-profile3"
+                                                class="nav-link w-full block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
+                                                id="tabs-profile-tab3"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#tabs-profile3"
+                                                role="tab"
+                                                aria-controls="tabs-profile3"
+                                                aria-selected="false"
+                                                >Integradora</a
+                                            >
+                                        </li>
+                                        <li
                                             v-else
+                                            class="nav-item"
+                                            role="presentation"
                                         >
                                             <a
                                                 href="#tabs-profile3"
@@ -412,6 +445,80 @@ function removeElement(element, type) {
                                                 Aula de clases asignada
                                             </option>
                                         </select-input>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-if="integradoras">
+                                <h2 class="text-lg font-semibold">Materias</h2>
+                                <Label
+                                    >Materias a agregar:
+                                    <span class="text-red-600"> * </span>
+                                </Label>
+                                <div
+                                    class="flex flex-row bg-gray-100 p-3 rounded-md mb-3"
+                                >
+                                    <div class="flex flex-col max-w-xs">
+                                        <select-input
+                                            class="mb-3 w-full"
+                                            v-model="form.materias"
+                                        >
+                                            <option v-for="materia in materias">
+                                                {{ materia.nombre }}
+                                            </option>
+                                            <option value="No Aplica">
+                                                No Aplica
+                                            </option>
+                                        </select-input>
+                                        <div>
+                                            <JetButton
+                                                class=""
+                                                @click="
+                                                    addElement(
+                                                        form.materias,
+                                                        'integrador'
+                                                    )
+                                                "
+                                                >Agregar
+                                            </JetButton>
+                                        </div>
+                                    </div>
+                                    <div class="overflow-auto">
+                                        <div
+                                            v-for="materia in integradoras"
+                                            class="flex flex-wrap space-x-2 ml-3 mb-1"
+                                        >
+                                            <span
+                                                class="px-4 py-2 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                                            >
+                                                {{ materia }}
+                                                <button
+                                                    @click="
+                                                        removeElement(
+                                                            form.materias,
+                                                            'integrador'
+                                                        )
+                                                    "
+                                                    class="bg-transparent hover focus:outline-none"
+                                                >
+                                                    <svg
+                                                        aria-hidden="true"
+                                                        focusable="false"
+                                                        data-prefix="fas"
+                                                        data-icon="times"
+                                                        class="w-3 ml-3"
+                                                        role="img"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 352 512"
+                                                    >
+                                                        <path
+                                                            fill="currentColor"
+                                                            d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                                        ></path>
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

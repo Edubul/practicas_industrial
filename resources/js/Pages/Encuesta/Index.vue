@@ -39,7 +39,7 @@ function horarioOcupado(horario_id) {
 }
 
 watch(selectDate, (newValue) => {
-    console.log(newValue);
+    // console.log(newValue);
     Inertia.get(
         "/crear-cita",
         { taller_id: selectTaller.value, fecha: newValue },

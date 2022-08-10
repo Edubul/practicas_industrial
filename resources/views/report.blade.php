@@ -169,6 +169,18 @@
                 <td class="tg-fymr">Material digital de apoyo</td>
                 <td class="tg-0pky" colspan="3">{{$info->material_apoyo}}</td>
             </tr>
+            @if(isset($info->materias_integradoras))
+            <tr>
+                <td class="tg-fymr">Materias Integradoras</td>
+                <td class="tg-0pky" colspan="3">
+                    <ul>
+                        @foreach(unserialize($info->materias_integradoras) as $materia)
+                        <li>{{$materia}}</li>
+                        @endforeach
+                    </ul>
+                </td>
+            </tr>
+            @endif
         </tbody>
     </table>
     <p>&nbsp;</p>

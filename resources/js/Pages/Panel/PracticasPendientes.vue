@@ -82,6 +82,15 @@ console.log(practicas.status);
                                                 </td>
                                                 <td
                                                     class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                                                    v-else-if="
+                                                        practica.materias_integradoras !=
+                                                        null
+                                                    "
+                                                >
+                                                    Integradora
+                                                </td>
+                                                <td
+                                                    class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                                                     v-else
                                                 >
                                                     Colegiada

@@ -26,6 +26,7 @@ class PracticasRequest extends FormRequest
         return [
             'profesores' => [],
             'materia' => ['required'],
+            'materias' => [],
             'unidad' => ['required', 'numeric'],
             'tema' => ['required'],
             'nombre_practica' => ['required'],

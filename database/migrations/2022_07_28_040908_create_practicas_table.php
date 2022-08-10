@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('clave_practica');
             $table->string('profesores')->nullable(true);
             $table->string('materia');
+            $table->string('materias_integradoras')->nullable(true);
             $table->string('unidad');
             $table->string('tema');
             $table->string('nombre_practica');

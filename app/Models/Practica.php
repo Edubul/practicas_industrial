@@ -14,6 +14,7 @@ class Practica extends Model
         'clave_practica',
         "profesores",
         "materia",
+        "materias_integradoras",
         "unidad",
         "tema",
         "nombre_practica",

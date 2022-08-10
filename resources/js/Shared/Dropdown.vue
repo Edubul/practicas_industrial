@@ -21,7 +21,7 @@ export default {
         show(show) {
             if (show) {
                 this.$nextTick(() => {
-                    console.log(this.$el, this.$el.children[0]);
+                    // console.log(this.$el, this.$el.children[0]);
                     this.popper = createPopper(this.$el, this.$el.children[0], {
                         placement: this.placement,
                         modifiers: [
