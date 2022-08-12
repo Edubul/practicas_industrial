@@ -19,10 +19,9 @@ class CalendarioController extends Controller
     public function index()
     {
         $talleres = Talleres::all();
-
-
-        $citas = Cita::select('citas.user_id', 'citas.taller_id', 'citas.horario_id', 'citas.fecha', 'users.name', 'users.last_name')
+        $citas = Cita::select('citas.id', 'citas.practica_id', 'citas.user_id', 'practicas.materias_integradoras', 'citas.taller_id', 'citas.horario_id', 'citas.fecha', 'users.name', 'users.last_name')
             ->join('users', 'users.id', '=', 'citas.user_id')
+            ->join('practicas', 'practicas.id', '=', 'citas.practica_id')
             ->where('citas.taller_id', '=', Request::only('taller_id'))
             ->get();
 
@@ -39,8 +38,6 @@ class CalendarioController extends Controller
             // ->where('talleres.id', '=', Request::only('taller_id'))
             ->get();
 
-        // dd($practicas);
-        // dd(Request::all());
         return Inertia::render('Panel/Calendario', [
             'talleres' => $talleres,
             'citas' => $citas,
@@ -69,7 +66,7 @@ class CalendarioController extends Controller
                 'user_id' => Auth::user()->id,
                 'taller_id' => $request['taller'],
                 'horario_id' => $request['horario'],
-                'practica' => $request['practica'],
+                'practica_id' => $request['practica_id'],
                 'fecha' => $newDate,
             ]);
 
@@ -77,5 +74,20 @@ class CalendarioController extends Controller
         } else {
             return Redirect::back()->withErrors(['error' => 'El horario ya esta ocupado']);
         }
+    }
+
+    public function show($id)
+    {
+        $cita = Cita::find($id)
+            ->join('practicas', 'practicas.id', '=', 'citas.practica_id')
+            ->join('users', 'users.id', '=', 'citas.user_id')
+            ->join('talleres', 'talleres.id', '=', 'citas.taller_id')
+            ->join('horarios', 'horarios.id', '=', 'citas.horario_id')
+            ->where('citas.id', '=', $id)
+            ->first();
+        // dd($cita);
+        return Inertia::render('Panel/Detalles', [
+            'cita' => $cita,
+        ]);
     }
 }

@@ -39,6 +39,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    Route::get('/calendario/{id}', [CalendarioController::class, 'show'])
+        ->name('calendario.show');
+});
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
     Route::post('/calendario', [CalendarioController::class, 'store'])
         ->name('calendario');
 });

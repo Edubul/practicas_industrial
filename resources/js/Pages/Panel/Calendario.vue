@@ -24,7 +24,7 @@ const form = useForm({
     fecha: fecha,
     taller: null,
     horario: null,
-    practica: null,
+    practica_id: null,
 });
 
 const horarios = usePage().props.value.horarios;
@@ -83,6 +83,20 @@ function store() {
         <div class="mt-10">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-xl sm:rounded-lg">
+                    <div class="p-5">
+                        <p class="">
+                            Nota: El color mostrado en el calendario corresponde
+                            al tipo de práctica que seleccionaron.
+                        </p>
+                        <ul class="list-disc ml-4">
+                            <li class="text-blue-600">
+                                Practicas Individuales
+                            </li>
+                            <li class="text-green-600">
+                                Practicas Integradoras
+                            </li>
+                        </ul>
+                    </div>
                     <jet-validation-errors class="p-5" />
                     <div
                         class="flex flex-wrap items-center justify-around w-full p-5"
@@ -111,16 +125,20 @@ function store() {
                                 value="Práctica"
                                 class="font-bold text-lg"
                             />
-                            <select-option id="horario" v-model="form.practica">
+                            <select-option
+                                id="horario"
+                                v-model="form.practica_id"
+                            >
                                 <option selected disabled>
-                                    -- Seleccionar Horario --
+                                    -- Seleccionar Práctica --
                                 </option>
                                 <option
                                     v-for="(practica, index) in practicas2"
                                     :key="index"
+                                    :value="practica.id"
                                 >
                                     {{ practica.clave_practica }} -
-                                    {{ practica.nombre }}
+                                    {{ practica.nombre_practica }}
                                 </option>
                             </select-option>
                         </div>

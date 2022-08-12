@@ -167,7 +167,7 @@ class PracticasController extends Controller
                 'clave_practica' => $request['no_pract'],
                 'profesores' => ($request['profesores'] == null) ? null : serialize($request['profesores']),
                 'materia' => $request['materia'],
-                'materias_integradoras' => serialize($request['materias']),
+                'materias_integradoras' => ($request['materias'] == null ? null : serialize($request['materias'])),
                 'unidad' => $request['unidad'],
                 'tema' => $request['tema'],
                 'nombre_practica' => $request['nombre_practica'],

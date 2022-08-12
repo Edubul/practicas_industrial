@@ -1,5 +1,12 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
+import JetActionSection from "@/Jetstream/ActionSection.vue";
+import JetDialogModal from "@/Jetstream/DialogModal.vue";
+import JetDangerButton from "@/Jetstream/DangerButton.vue";
+import JetInput from "@/Jetstream/Input.vue";
+import JetInputError from "@/Jetstream/InputError.vue";
+import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
+import { Inertia } from "@inertiajs/inertia";
 
 const MONTH_NAMES = [
     "Enero",
@@ -15,6 +22,7 @@ const MONTH_NAMES = [
     "Noviembre",
     "Diciembre",
 ];
+const confirmingUserDeletion = ref(false);
 const DAYS = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"];
 const today = new Date();
 const day = ref(today.getDay());
@@ -93,27 +101,12 @@ function getFecha(fecha) {
     // console.log(date);
     return date.toDateString();
 }
-
-// function addPractica() {
-//     if (practicaProfesor.value == "") {
-//         return;
-//     }
-
-//     practicas.value.push({
-//         diaPractica: diaPractica.value,
-//         practicaProfesor: practicaProfesor.value,
-//     });
-// }
 </script>
 
 <template>
     <div class="antialiased sans-serif bg-gray-100 h-full">
         <div>
             <div class="container mx-auto p-4">
-                <!-- <div class="font-bold text-gray-800 text-xl mb-4">
-				Schedule Tasks
-			</div> -->
-
                 <div class="bg-white rounded-lg shadow">
                     <div class="flex items-center justify-between py-2 px-6">
                         <div>
@@ -255,11 +248,25 @@ function getFecha(fecha) {
                                                     ).toDateString()
                                             )"
                                         >
-                                            <p
-                                                class="text-sm truncate leading-tight"
-                                            >
-                                                {{ practica.name }}
-                                                {{ practica.last_name }}
+                                            <p>
+                                                <a
+                                                    class="text-sm truncate leading-tight"
+                                                    :class="
+                                                        practica.materias_integradoras ==
+                                                        null
+                                                            ? 'text-blue-600'
+                                                            : 'text-green-600'
+                                                    "
+                                                    :href="
+                                                        route(
+                                                            'calendario.show',
+                                                            practica.id
+                                                        )
+                                                    "
+                                                >
+                                                    {{ practica.name }}
+                                                    {{ practica.last_name }}
+                                                </a>
                                             </p>
                                         </template>
                                     </div>

@@ -4,7 +4,6 @@ import Pagination from "@/Shared/Pagination.vue";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 
 const practicas = usePage().props.value.practicas;
-console.log(practicas.status);
 </script>
 <template>
     <AppLayout title="Laboratorio">
