@@ -287,7 +287,7 @@ function changeIntegrador() {
                                                             v-for="profesor in profesores_info"
                                                         >
                                                             {{
-                                                                profesor.lastname
+                                                                profesor.last_name
                                                             }}
                                                             {{ profesor.name }}
                                                         </option>
