@@ -210,9 +210,18 @@ class PracticasController extends Controller
 
     public function banco()
     {
-        $archivos_aprobados = Practica::where('status', '=', 'Aprobado')
-            ->filter(Request::only('q', 'opcion'))
-            ->paginate(15);
+        if (Auth::user()->role != 'externo') {
+            $archivos_aprobados = Practica::where('status', '=', 'Aprobado')
+                ->join('users', 'users.id', '=', 'practicas.user_id')
+                ->filter(Request::only('q', 'opcion'))
+                ->paginate(15);
+        } else {
+            $archivos_aprobados = Practica::where('status', '=', 'Aprobado')
+                ->join('users', 'users.id', '=', 'practicas.user_id')
+                ->where('users.id', '=', 'externo')
+                ->filter(Request::only('q', 'opcion'))
+                ->paginate(15);
+        }
         // dd($archivos_aprobados);
 
         return Inertia::render('Panel/BancoPracticas', ['filters' => Request::all('search', 'opcion'), 'archivos' => $archivos_aprobados]);

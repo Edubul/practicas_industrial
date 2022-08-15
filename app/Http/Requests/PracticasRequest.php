@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PracticasRequest extends FormRequest
 {
@@ -23,28 +25,58 @@ class PracticasRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'profesores' => [],
-            'materia' => ['required'],
-            'materias' => [],
-            'unidad' => ['required', 'numeric'],
-            'tema' => ['required'],
-            'nombre_practica' => ['required'],
-            'atributo_egreso' => ['required'],
-            'req_ub_op1' => ['required'],
-            'req_ub_op2' => [],
-            'equipo_prot' => ['required'],
-            'maq_usar' => ['required'],
-            'inst_med' => [],
-            'material_didactico' => ['required'],
-            'herr_man' => [],
-            'herr_semi' => [],
-            'recom_seguridad' => [],
-            'objetivo' => ['required'],
-            'pasos' => ['required'],
-            'fuentes_info' => ['required'],
-            'material_apoyo' => [],
-        ];
+        switch (Auth::user()->role) {
+            case 'profesor':
+            case 'administrador':
+                return [
+                    'profesores' => [],
+                    'materia' => ['required'],
+                    'materias' => [],
+                    'unidad' => ['required', 'numeric'],
+                    'tema' => ['required'],
+                    'nombre_practica' => ['required'],
+                    'atributo_egreso' => ['required'],
+                    'req_ub_op1' => ['required'],
+                    'req_ub_op2' => [],
+                    'equipo_prot' => ['required'],
+                    'maq_usar' => ['required'],
+                    'inst_med' => [],
+                    'material_didactico' => ['required'],
+                    'herr_man' => [],
+                    'herr_semi' => [],
+                    'recom_seguridad' => [],
+                    'objetivo' => ['required'],
+                    'pasos' => ['required'],
+                    'fuentes_info' => ['required'],
+                    'material_apoyo' => [],
+                ];
+                break;
+
+            case 'externo':
+                return [
+                    'profesores' => [],
+                    'materia' => [],
+                    'materias' => [],
+                    'unidad' => ['required', 'numeric'],
+                    'tema' => ['required'],
+                    'nombre_practica' => ['required'],
+                    'atributo_egreso' => [],
+                    'req_ub_op1' => ['required'],
+                    'req_ub_op2' => [],
+                    'equipo_prot' => ['required'],
+                    'maq_usar' => ['required'],
+                    'inst_med' => [],
+                    'material_didactico' => ['required'],
+                    'herr_man' => [],
+                    'herr_semi' => [],
+                    'recom_seguridad' => [],
+                    'objetivo' => ['required'],
+                    'pasos' => ['required'],
+                    'fuentes_info' => ['required'],
+                    'material_apoyo' => [],
+                ];
+                break;
+        }
     }
 
     public function messages()

@@ -315,21 +315,35 @@ function changeIntegrador() {
                                     <div class="w-1/2">
                                         <Label
                                             >Materia:
-                                            <span class="text-red-600">
+                                            <span
+                                                class="text-red-600"
+                                                v-if="user.role != 'externo'"
+                                            >
                                                 *
                                             </span>
                                         </Label>
-                                        <select-input
-                                            v-model="form.materia"
-                                            class="w-full"
-                                        >
-                                            <option value="">
-                                                Seleccione una materia
-                                            </option>
-                                            <option v-for="materia in materias">
-                                                {{ materia.nombre }}
-                                            </option>
-                                        </select-input>
+                                        <div v-if="user.role != 'externo'">
+                                            <select-input
+                                                v-model="form.materia"
+                                                class="w-full"
+                                            >
+                                                <option value="">
+                                                    Seleccione una materia
+                                                </option>
+                                                <option
+                                                    v-for="materia in materias"
+                                                >
+                                                    {{ materia.nombre }}
+                                                </option>
+                                            </select-input>
+                                        </div>
+                                        <div v-else>
+                                            <JetInput
+                                                v-model="form.materia"
+                                                type="text"
+                                                class="w-full"
+                                            />
+                                        </div>
                                     </div>
                                     <div class="w-1/2 ml-3">
                                         <Label
@@ -386,7 +400,12 @@ function changeIntegrador() {
                             <div class="mb-3">
                                 <Label
                                     >Atributo de egreso:
-                                    <span class="text-red-600"> * </span>
+                                    <span
+                                        class="text-red-600"
+                                        v-if="user.role != 'externo'"
+                                    >
+                                        *
+                                    </span>
                                 </Label>
                                 <select-input v-model="form.atributo_egreso">
                                     <option>Calidad</option>
