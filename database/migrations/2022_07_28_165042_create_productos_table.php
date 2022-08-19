@@ -15,13 +15,12 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->longText('nombre_producto')->nullable(false);
-            $table->float('precio_venta')->unsigned()->default(0)->nullable(true);
-            $table->float('impuesto')->unsigned()->default(0)->nullable(true);
+            $table->string('nombre_producto')->nullable(false);
+            $table->longText('descripcion')->default('')->nullable(false);
             $table->unsignedBigInteger('categoria_id')->nullable(false);
-            $table->string('referencia_interna')->default('')->nullable(true);
+            $table->string('ref_interna')->default('')->nullable(true);
             $table->string('nomenclatura')->nullable(false);
-            $table->integer('unidades')->unsigned()->default(1);
+            $table->integer('cantidad')->unsigned()->default(1);
             $table->timestamps();
 
             $table->foreign('categoria_id')->references('id')->on('categoria_productos');

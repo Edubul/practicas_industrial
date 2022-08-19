@@ -4,6 +4,7 @@ use App\Http\Controllers\BancoController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\EncuestaController;
 use App\Http\Controllers\EvidenciasController;
+use App\Http\Controllers\ExternosController;
 use App\Http\Controllers\PracticasController;
 use App\Models\Practica;
 use Illuminate\Foundation\Application;
@@ -24,6 +25,10 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Auth/Login');
 });
+
+//Registro Externos
+Route::get('/register/externos', [ExternosController::class, 'create'])->name('externos.create');
+Route::post('/register/externos', [ExternosController::class, 'store'])->name('externos.store');
 
 // Calendario
 Route::middleware([
