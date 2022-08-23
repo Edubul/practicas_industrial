@@ -6,6 +6,7 @@ use App\Http\Controllers\EncuestaController;
 use App\Http\Controllers\EvidenciasController;
 use App\Http\Controllers\ExternosController;
 use App\Http\Controllers\PracticasController;
+use App\Http\Controllers\InventarioController;
 use App\Models\Practica;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,8 @@ Route::middleware([
 // Evidencias Routes
 Route::get('evidencia_alumno', [EvidenciasController::class, 'create'])->name('evidencia.create');
 Route::post('evidencia/store', [EvidenciasController::class, 'store'])->name('evidencia.store');
+
+
 // Practicas Routes
 Route::middleware([
     'auth:sanctum',
@@ -117,3 +120,7 @@ Route::middleware([
     Route::put('/practica/{id}', [PracticasController::class, 'update'])
         ->name('practicas.update');
 });
+
+// Inventario
+Route::get('/inventario', [InventarioController::class, 'index'])
+    ->name('inventario.index');

@@ -107,6 +107,26 @@ const user = usePage().props.value.user;
                                     </div>
                                 </Link>
                             </div>
+                            <div
+                                class="col-span-1 p-3"
+                                v-if="user.role === 'administrador'"
+                            >
+                                <Link :href="route('inventario.index')">
+                                    <div
+                                        class="flex flex-col justify-center h-full items-center p-3 bg-gray-200 rounded-md hover:bg-gray-300"
+                                    >
+                                        <font-awesome-icon
+                                            class="h-10 text-gray-400"
+                                            icon="fa-solid fa-box-archive"
+                                        />
+                                        <button class="tr-300">
+                                            <span class="text-lg font-medium">
+                                                Inventario
+                                            </span>
+                                        </button>
+                                    </div>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
