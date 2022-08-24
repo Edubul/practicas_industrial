@@ -122,9 +122,13 @@ Route::middleware([
         ->name('practicas.update');
 });
 
-// Inventario
+// Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard.index');
 
+    // Inventario
 Route::get('/inventario', [InventarioController::class, 'index'])
     ->name('inventario.index');
+
+Route::get('/inventario/create', [InventarioController::class, 'create'])
+    ->name('inventario.create');

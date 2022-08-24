@@ -23,4 +23,8 @@ class InventarioController extends Controller
             
         return Inertia::render('Inventario/Index', ['productos' => $productos, 'total_productos' => $totalProductos]);
     }
+
+    public function create() {
+        return Inertia::render('Inventario/Create');
+    }
 }
