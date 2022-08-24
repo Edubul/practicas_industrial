@@ -14,8 +14,8 @@ import {
     faPenRuler,
     faCalendarPlus,
     faBusinessTime,
-    faBoxArchive
-
+    faBoxArchive,
+    faCartFlatbed,
 } from "@fortawesome/free-solid-svg-icons";
 
 const icons = library.add(
@@ -24,7 +24,8 @@ const icons = library.add(
     faPenRuler,
     faCalendarPlus,
     faBusinessTime,
-    faBoxArchive
+    faBoxArchive,
+    faCartFlatbed,
 );
 
 const appName =

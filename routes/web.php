@@ -6,6 +6,7 @@ use App\Http\Controllers\EncuestaController;
 use App\Http\Controllers\EvidenciasController;
 use App\Http\Controllers\ExternosController;
 use App\Http\Controllers\PracticasController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarioController;
 use App\Models\Practica;
 use Illuminate\Foundation\Application;
@@ -122,5 +123,8 @@ Route::middleware([
 });
 
 // Inventario
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard.index');
+
 Route::get('/inventario', [InventarioController::class, 'index'])
     ->name('inventario.index');
