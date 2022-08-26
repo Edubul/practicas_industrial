@@ -27,4 +27,10 @@ class InventarioController extends Controller
     public function create() {
         return Inertia::render('Inventario/Create');
     }
+
+    public function edit($art_id)
+    {
+        $articulo = Productos::findorfail($art_id);
+        dd($articulo);
+    }
 }

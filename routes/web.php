@@ -132,3 +132,7 @@ Route::get('/inventario', [InventarioController::class, 'index'])
 
 Route::get('/inventario/create', [InventarioController::class, 'create'])
     ->name('inventario.create');
+
+Route::get('/inventario/{art_id}/edit', [InventarioController::class, 'edit'])
+    ->name('inventario.create');
+
