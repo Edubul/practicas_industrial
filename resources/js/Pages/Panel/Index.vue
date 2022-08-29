@@ -91,27 +91,7 @@ const user = usePage().props.value.user;
                                 class="col-span-1 p-3"
                                 v-if="user.role === 'administrador'"
                             >
-                                <Link :href="route('pendientes')">
-                                    <div
-                                        class="flex flex-col justify-center h-full items-center p-3 bg-gray-200 rounded-md hover:bg-gray-300"
-                                    >
-                                        <font-awesome-icon
-                                            class="h-10 text-gray-400"
-                                            icon="fa-solid fa-business-time"
-                                        />
-                                        <button class="tr-300">
-                                            <span class="text-lg font-medium"
-                                                >Practicas pendientes
-                                            </span>
-                                        </button>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div
-                                class="col-span-1 p-3"
-                                v-if="user.role === 'administrador'"
-                            >
-                                <Link :href="route('inventario.index')">
+                                <Link :href="route('dashboard.index')">
                                     <div
                                         class="flex flex-col justify-center h-full items-center p-3 bg-gray-200 rounded-md hover:bg-gray-300"
                                     >
@@ -121,7 +101,7 @@ const user = usePage().props.value.user;
                                         />
                                         <button class="tr-300">
                                             <span class="text-lg font-medium">
-                                                Inventario
+                                                Dashboard
                                             </span>
                                         </button>
                                     </div>

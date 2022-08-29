@@ -1,12 +1,12 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
+import DashboardLayout from "@/Layouts/DashboardLayout.vue";
 import Pagination from "@/Shared/Pagination.vue";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 
 const practicas = usePage().props.value.practicas;
 </script>
 <template>
-    <AppLayout title="Laboratorio">
+    <DashboardLayout title="Laboratorio">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Practicas Pendientes
@@ -139,5 +139,5 @@ const practicas = usePage().props.value.practicas;
                 </div>
             </div>
         </div>
-    </AppLayout>
+    </DashboardLayout>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
+import DashboardLayout from "@/Layouts/DashboardLayout.vue";
 import Label from "@/Jetstream/Label.vue";
 import SelectInput from "@/Jetstream/SelectInput.vue";
 import JetInput from "@/Jetstream/Input.vue";
@@ -141,7 +141,7 @@ function removeElement(element, type) {
 </script>
 
 <template>
-    <AppLayout title="Laboratorio">
+    <DashboardLayout title="Laboratorio">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Practica ID: {{ practica_edit.id }}
@@ -420,7 +420,7 @@ function removeElement(element, type) {
                                     <div class="w-full ml-3">
                                         <Label>Opcion 2: </Label>
                                         <select-input v-model="form.req_ub_op2">
-                                            Desarrollo de Capital Humano
+                                            <option>Desarrollo de Capital Humano</option>
                                             <option>Antropometría</option>
                                             <option>Estudio del trabajo</option>
                                             <option>Ingeniería Inversa</option>
@@ -931,5 +931,5 @@ function removeElement(element, type) {
                 </div>
             </div>
         </div>
-    </AppLayout>
+    </DashboardLayout>
 </template>

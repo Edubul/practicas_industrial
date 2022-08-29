@@ -79,9 +79,9 @@ const total_productos = usePage().props.value.total_productos;
                     </td>
 
                     <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                        <button type="button" class="inline-block bg-yellow-500 text-white font-medium text-xs p-2 leading-tight uppercase rounded shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg transition duration-150 ease-in-out">
+                        <a  :href="route('inventario.edit',producto.id)" class="inline-block bg-yellow-500 text-white font-medium text-xs p-2 leading-tight uppercase rounded shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg transition duration-150 ease-in-out">
                             Editar
-                        </button>
+                        </a>
                     </td>
                 </tr>
                 

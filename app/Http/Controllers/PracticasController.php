@@ -23,8 +23,13 @@ class PracticasController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        return Inertia::render('Panel/Index', ['user' => $user]);
+        $practicas = Practica::select(['users.name', 'users.last_name', 'practicas.id', 'profesores', 'status', 'materia', 'materias_integradoras', 'tema', 'atributo_egreso'])
+        ->join('users', 'users.id', '=', 'practicas.user_id')
+        ->paginate(15);
+
+        return Inertia::render('Practicas/Index', [
+            'practicas' => $practicas,
+        ]);
     }
 
 
@@ -48,7 +53,7 @@ class PracticasController extends Controller
         $inst_med_array = Practica::select('inst_med')->where('id', '=', $id)->get();
         $equipo_prot_array = Practica::select('equipo_prot')->where('id', '=', $id)->get();
         $material_apoyo = Practica::select('material_apoyo')->where('id', '=', $id)->get();
-        return Inertia::render('Panel/PracticasEdit', [
+        return Inertia::render('Practicas/Edit', [
             'materias' => $materias,
             'equipo_proteccion' => $equipo_proteccion,
             'instrumentos_medicion' => $instrumentos_medicion,
@@ -197,16 +202,16 @@ class PracticasController extends Controller
         }
     }
 
-    public function pendientes()
-    {
-        $practicas = Practica::select(['users.name', 'users.last_name', 'practicas.id', 'profesores', 'status', 'materia', 'materias_integradoras', 'tema', 'atributo_egreso'])
-            ->join('users', 'users.id', '=', 'practicas.user_id')
-            ->paginate(15);
+    // public function pendientes()
+    // {
+    //     $practicas = Practica::select(['users.name', 'users.last_name', 'practicas.id', 'profesores', 'status', 'materia', 'materias_integradoras', 'tema', 'atributo_egreso'])
+    //         ->join('users', 'users.id', '=', 'practicas.user_id')
+    //         ->paginate(15);
 
-        return Inertia::render('Panel/PracticasPendientes', [
-            'practicas' => $practicas,
-        ]);
-    }
+    //     return Inertia::render('Practicas/Pendientes', [
+    //         'practicas' => $practicas,
+    //     ]);
+    // }
 
     public function banco()
     {

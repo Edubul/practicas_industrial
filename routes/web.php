@@ -8,6 +8,7 @@ use App\Http\Controllers\ExternosController;
 use App\Http\Controllers\PracticasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\PanelController;
 use App\Models\Practica;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -70,17 +71,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/panel', [PracticasController::class, 'index'])
+    Route::get('/panel', [PanelController::class, 'index'])
         ->name('panel');
-});
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/practicas-pendientes', [PracticasController::class, 'pendientes'])
-        ->name('pendientes');
 });
 
 Route::middleware([
@@ -126,7 +118,7 @@ Route::middleware([
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard.index');
 
-    // Inventario
+// Inventario
 Route::get('/inventario', [InventarioController::class, 'index'])
     ->name('inventario.index');
 
@@ -134,5 +126,19 @@ Route::get('/inventario/create', [InventarioController::class, 'create'])
     ->name('inventario.create');
 
 Route::get('/inventario/{art_id}/edit', [InventarioController::class, 'edit'])
-    ->name('inventario.create');
+    ->name('inventario.edit');
 
+Route::put('/inventario/{art_id}', [InventarioController::class, 'update'])
+    ->name('inventario.update');
+
+
+
+// Practicas
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/practicas-pendientes', [PracticasController::class, 'index'])
+        ->name('practicas.index');
+});
