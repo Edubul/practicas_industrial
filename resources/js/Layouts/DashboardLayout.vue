@@ -81,10 +81,10 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
                                 </Link>
                             </li>
                             <li>
-                                <a href="#" target="_blank" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
+                                <Link :href="route('prestamos.index')" target="_blank" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
                                 <font-awesome-icon icon="fa-solid fa-cart-flatbed" class="text-gray-500 group-hover:text-gray-900"/>
                                 <span class="ml-3 flex-1 whitespace-nowrap">Prestamos</span>
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <Link :href="route('practicas.index')" target="_blank" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">

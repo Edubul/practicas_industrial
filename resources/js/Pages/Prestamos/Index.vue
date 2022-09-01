@@ -1,111 +1,267 @@
 <script setup>
+import { ref, watch, computed } from "vue";
 import DashboardLayout from "@/Layouts/DashboardLayout.vue";
 import Pagination from "@/Shared/Pagination.vue";
 import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import JetDialogModal from "@/Jetstream/DialogModal.vue";
+import JetInput from "@/Jetstream/Input.vue";
+import { Inertia } from "@inertiajs/inertia";
+import JetSecondaryButton from "@/Jetstream/SecondaryButton.vue";
+import JetButton from "@/Jetstream/Button.vue";
 
-const productos = usePage().props.value.productos;
-const total_productos = usePage().props.value.total_productos;
+const articulo = computed(() => usePage().props.value.articulo);
+const prestamos = computed(() => usePage().props.value.prestamos);
 
+const open_modal = ref(false);
+const nomenclatura = ref("");
+const form = useForm({
+    nomenclatura: nomenclatura,
+    profesor_id: "",
+    aula: "",
+});
+const openModal = () => {
+    open_modal.value = true;
+};
+
+const closeModal = () => {
+    open_modal.value = false;
+
+    form.reset();
+};
+
+watch(nomenclatura, (new_articulo) => {
+    Inertia.get(
+        "/prestamos",
+        { q: new_articulo },
+        { preserveScroll: true, preserveState: true }
+    );
+});
+
+function store() {
+    if (confirm("¿Está seguro de prestar este artículo?")) {
+        Inertia.post(`/prestamos`, form);
+    }
+}
 </script>
-
 
 <template>
     <DashboardLayout>
-    <!-- This is an example component -->
-        <div class="relative py-10 bg-lightBlue-500">
-          <div class="px-4 md:px-6 mx-auto w-full">
-             <div>
-                <div class="flex flex-wrap justify-center">
-                   <div class="w-full lg:w-6/12 xl:w-3/12 px-4 mr-5">
-                      <div class="relative flex flex-col min-w-0 break-words bg-white rounded-lg mb-6 xl:mb-0 shadow-lg">
-                         <div class="flex-auto p-4">
-                            <div class="flex flex-wrap">
-                               <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-                                  <h5 class="text-blueGray-400 uppercase font-bold text-xs">Total de artículos</h5>
-                                  <span class="font-bold text-xl">{{ total_productos }}</span>
-                               </div>
-                               <div class="relative w-auto pl-4 flex-initial">
-                                  <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-red-500"><i class="far fa-chart-bar"></i></div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                   </div>
-                   <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-                      <div class="relative flex flex-col min-w-0 break-words bg-white rounded-lg mb-6 xl:mb-0 shadow-lg">
-                         <div class="flex-auto p-4">
-                            <div class="flex flex-wrap">
-                               <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-                                  <h5 class="text-blueGray-400 uppercase font-bold text-xs">Artículos en prestamo</h5>
-                                  <span class="font-bold text-xl">-- Pendiente --</span>
-                               </div>
-                               <div class="relative w-auto pl-4 flex-initial">
-                                  <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-orange-500"><i class="fas fa-chart-pie"></i></div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                   </div>
+        <!-- This is an example component -->
+        <div class="w-full max-w-sm mx-auto bg-white rounded-2xl shadow-xl">
+            <!-- Navigation Bar -->
+            <div class="px-5 pt-3 bg-white shadow-lg rounded-2xl">
+                <div class="flex flex-row space-x-3 justify-center">
+                    <!-- Item #1 -->
+                    <div class="flex group">
+                        <a
+                            href="#"
+                            class="p-3 text-gray-400 hover:text-yellow-500"
+                        >
+                            <span class="flex flex-col items-center">
+                                <font-awesome-icon
+                                    class="h-5 text-gray-400"
+                                    icon="fa-solid fa-box-archive"
+                                />
+
+                                <!-- Text -->
+                                <button
+                                    class="text-xs mb-2 transition-all duration-200"
+                                    @click="openModal"
+                                >
+                                    Agregar nuevo Prestamo
+                                </button>
+                                <JetDialogModal
+                                    :show="open_modal"
+                                    @close="openModal"
+                                >
+                                    <template #title>
+                                        Agregar prestamo
+                                    </template>
+
+                                    <template #content>
+                                        <p class="text-sm text-gray-400 italic">
+                                            <span class="text-red-500 text-sm"
+                                                >NOTA:
+                                            </span>
+                                            El sistema agregará automáticamente
+                                            la hora y fecha en la que se acepta
+                                            el prestamo y el encargado será el
+                                            propietario de la cuenta sesionada.
+                                        </p>
+                                        <div class="grid grid-cols-4 gap-5">
+                                            <div class="col-span-2">
+                                                <JetInput
+                                                    ref="passwordInput"
+                                                    v-model="nomenclatura"
+                                                    type="text"
+                                                    class="mt-1 block w-full"
+                                                    placeholder="Nomenclatura"
+                                                    @keyup.enter="deleteUser"
+                                                />
+
+                                                <JetInput
+                                                    ref="passwordInput"
+                                                    v-model="form.profesor_id"
+                                                    type="text"
+                                                    class="mt-1 block w-full"
+                                                    placeholder="Clave Profesor"
+                                                    @keyup.enter="deleteUser"
+                                                />
+
+                                                <JetInput
+                                                    ref="passwordInput"
+                                                    v-model="form.aula"
+                                                    type="text"
+                                                    class="mt-1 block w-full"
+                                                    placeholder="Aula"
+                                                    @keyup.enter="deleteUser"
+                                                />
+
+                                                <JetInputError
+                                                    :message="
+                                                        form.errors.password
+                                                    "
+                                                    class="mt-2"
+                                                />
+                                            </div>
+                                            <div
+                                                class="col-span-2"
+                                                v-if="articulo[0]"
+                                            >
+                                                <h2 class="font-bold">
+                                                    Detalles del Artículo
+                                                </h2>
+                                                <p class="mt-1">
+                                                    <b>Nombre:</b>
+                                                    {{
+                                                        articulo[0]
+                                                            .nombre_producto
+                                                    }}
+                                                </p>
+                                                <p class="mt-1">
+                                                    <b>Nomenclatura:</b>
+                                                    {{
+                                                        articulo[0].nomenclatura
+                                                    }}
+                                                </p>
+                                                <p class="mt-1">
+                                                    <b>Descripcion:</b>
+                                                    {{
+                                                        articulo[0].descripcion
+                                                    }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <template #footer>
+                                        <JetSecondaryButton @click="closeModal">
+                                            Cancel
+                                        </JetSecondaryButton>
+
+                                        <JetButton
+                                            class="ml-3"
+                                            :class="{
+                                                'opacity-25': form.processing,
+                                            }"
+                                            :disabled="form.processing"
+                                            @click="store"
+                                        >
+                                            Agregar prestamo
+                                        </JetButton>
+                                    </template>
+                                </JetDialogModal>
+                                <!-- Focus Dot -->
+                                <span
+                                    class="h-2 w-2 rounded-full group-hover:bg-yellow-500 transition-all duration-150 delay-100"
+                                ></span>
+                            </span>
+                        </a>
+                    </div>
                 </div>
-             </div>
-          </div>
-       </div>
+            </div>
+        </div>
 
         <div class="p-5">
             <table class="min-w-full divide-y divide-gray-00">
                 <thead class="bg-gray-100">
-                <tr>
-                    <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Nombre Producto
-                    </th>
-                    <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Descripción
-                    </th>
-                    <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Categoría
-                    </th>
-                    <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Nomenclatura
-                    </th>
-                    <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Cantidad
-                    </th>
-                    <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        
-                    </th>
-                </tr>
+                    <tr>
+                        <th
+                            scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Nomenclatura
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Nombre Artículo
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Docente
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Encargado
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Horario de salida
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Horario de entrega
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Salon
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                            Status
+                        </th>
+                    </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr v-for="producto in productos.data">
-                    <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                        {{ producto.nombre_producto }}
-                    </td>
-                    <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500 max-w-sm overflow-hidden">
-                        {{ producto.descripcion }}
-                    </td>
-                    <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                        {{ producto.categoria }}
-                    </td>
-                    <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                        {{ producto.nomenclatura }}
-                    </td>
-                    <td class="p-4 whitespace-nowrap text-sm mx-auto font-semibold text-gray-900">
-                        {{ producto.cantidad }}
-                    </td>
+                    <tr class="border-b" v-for="prestamo in prestamos.data">
+                        <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                        >
+                            {{ prestamo.nomenclatura }}
+                        </td>
+                        <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                        >
+                            {{ prestamo.nombre_producto }}
+                        </td>
+                        <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                        >
+                            {{ prestamo.nombre_producto }}
+                        </td>
 
-                    <td class="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                        <button type="button" class="inline-block bg-yellow-500 text-white font-medium text-xs p-2 leading-tight uppercase rounded shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg transition duration-150 ease-in-out">
-                            Editar
-                        </button>
-                    </td>
-                </tr>
-                
+                        
+                        
+                    </tr>
                 </tbody>
             </table>
         </div>
-        <pagination
+        <!-- <pagination
             class="px-5"
-            :links="productos.links"
-        />
+        /> -->
     </DashboardLayout>
 </template>

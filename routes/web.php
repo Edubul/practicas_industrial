@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PrestamosController;
 use App\Http\Controllers\BancoController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\EncuestaController;
@@ -131,7 +132,13 @@ Route::get('/inventario/{art_id}/edit', [InventarioController::class, 'edit'])
 Route::put('/inventario/{art_id}', [InventarioController::class, 'update'])
     ->name('inventario.update');
 
+// Prestamos
+Route::get('/prestamos',[PrestamosController::class, 'index'])
+        ->name('prestamos.index');
 
+
+Route::post('/prestamos',[PrestamosController::class, 'store'])
+        ->name('prestamos.store');
 
 // Practicas
 Route::middleware([

@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         Talleres::factory(4)->create();
         PreguntasEncuesta::factory(10)->create();
         EncuestasRespuestas::factory(10)->create();
-        CategoriaProductos::factory(10)->create();
+        CategoriaProductos::factory(11)->create();
         // Archivos::factory(60)->create();
         Materias::factory(60)->create();
     }
