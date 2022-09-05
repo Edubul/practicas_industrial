@@ -116,21 +116,52 @@ Route::middleware([
 });
 
 // Dashboard
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard.index');
+});
 
 // Inventario
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
 Route::get('/inventario', [InventarioController::class, 'index'])
     ->name('inventario.index');
+});
 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
 Route::get('/inventario/create', [InventarioController::class, 'create'])
     ->name('inventario.create');
+});
 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
 Route::get('/inventario/{art_id}/edit', [InventarioController::class, 'edit'])
     ->name('inventario.edit');
+});
 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
 Route::put('/inventario/{art_id}', [InventarioController::class, 'update'])
     ->name('inventario.update');
+});
+
 
 // Prestamos
 Route::get('/prestamos',[PrestamosController::class, 'index'])

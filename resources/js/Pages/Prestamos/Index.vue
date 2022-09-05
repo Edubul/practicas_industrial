@@ -14,6 +14,7 @@ const prestamos = computed(() => usePage().props.value.prestamos);
 
 const open_modal = ref(false);
 const nomenclatura = ref("");
+const inputNomenclatura = ref(null);
 const form = useForm({
     nomenclatura: nomenclatura,
     profesor_id: "",
@@ -21,11 +22,12 @@ const form = useForm({
 });
 const openModal = () => {
     open_modal.value = true;
+    inputNomenclatura.value.focus();
 };
 
 const closeModal = () => {
     open_modal.value = false;
-
+    nomenclatura.value = null;
     form.reset();
 };
 
@@ -39,7 +41,12 @@ watch(nomenclatura, (new_articulo) => {
 
 function store() {
     if (confirm("¿Está seguro de prestar este artículo?")) {
-        Inertia.post(`/prestamos`, form);
+        Inertia.post(`/prestamos`, form, {
+            onSuccess: () => {
+                nomenclatura.value = null;
+                form.reset();
+            }
+        });
     }
 }
 </script>
@@ -91,7 +98,7 @@ function store() {
                                         <div class="grid grid-cols-4 gap-5">
                                             <div class="col-span-2">
                                                 <JetInput
-                                                    ref="passwordInput"
+                                                    ref="inputNomenclatura"
                                                     v-model="nomenclatura"
                                                     type="text"
                                                     class="mt-1 block w-full"
@@ -100,21 +107,17 @@ function store() {
                                                 />
 
                                                 <JetInput
-                                                    ref="passwordInput"
                                                     v-model="form.profesor_id"
                                                     type="text"
                                                     class="mt-1 block w-full"
                                                     placeholder="Clave Profesor"
-                                                    @keyup.enter="deleteUser"
                                                 />
 
                                                 <JetInput
-                                                    ref="passwordInput"
                                                     v-model="form.aula"
                                                     type="text"
                                                     class="mt-1 block w-full"
                                                     placeholder="Aula"
-                                                    @keyup.enter="deleteUser"
                                                 />
 
                                                 <JetInputError
@@ -183,6 +186,7 @@ function store() {
         </div>
 
         <div class="p-5">
+            
             <table class="min-w-full divide-y divide-gray-00">
                 <thead class="bg-gray-100">
                     <tr>
@@ -251,7 +255,33 @@ function store() {
                         <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                         >
-                            {{ prestamo.nombre_producto }}
+                            {{ prestamo.pNombre }} {{ prestamo.pApellidos}}
+                        </td>
+                        <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                        >
+                            {{ prestamo.name }} {{ prestamo.last_name}}
+                        </td>
+                        <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                        >
+                            {{ prestamo.hora_pedido }}
+                        </td>
+                        <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                        >
+                            
+                        </td>
+                        <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                        >
+                            {{ prestamo.aula }}
+                        </td>
+                        <td
+                            class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                        >
+                        <span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full"> {{ prestamo.status }}</span>
+                           
                         </td>
 
                         

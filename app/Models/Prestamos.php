@@ -9,7 +9,9 @@ class Prestamos extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'encargado_id',
+        'producto_id',
         'profesor_id',
         'hora_pedido',
         'hora_entrega',
