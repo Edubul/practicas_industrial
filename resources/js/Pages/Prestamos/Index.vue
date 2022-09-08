@@ -12,7 +12,9 @@ import JetButton from "@/Jetstream/Button.vue";
 const articulo = computed(() => usePage().props.value.articulo);
 const prestamos = computed(() => usePage().props.value.prestamos);
 
+
 const open_modal = ref(false);
+const open_modal_entrega = ref(false);
 const nomenclatura = ref("");
 const inputNomenclatura = ref(null);
 const form = useForm({
@@ -20,6 +22,8 @@ const form = useForm({
     profesor_id: "",
     aula: "",
 });
+
+
 const openModal = () => {
     open_modal.value = true;
     inputNomenclatura.value.focus();
@@ -28,7 +32,6 @@ const openModal = () => {
 const closeModal = () => {
     open_modal.value = false;
     nomenclatura.value = null;
-    form.reset();
 };
 
 watch(nomenclatura, (new_articulo) => {
@@ -44,11 +47,33 @@ function store() {
         Inertia.post(`/prestamos`, form, {
             onSuccess: () => {
                 nomenclatura.value = null;
-                form.reset();
-            }
+            },
         });
     }
 }
+
+function update(art_id) {
+    console.log(art_id);
+    if (confirm("¿Está seguro de marcar como entregado?")) {
+        Inertia.put(`/prestamos/${art_id}`, {
+            preserveState: false,
+        });
+    }
+}
+
+
+function prestado(art) {
+    return art == "Prestado" ? true : false;
+}
+
+
+const openModalEntrega = () => {
+    open_modal_entrega.value = true;
+};
+
+const closeModalEntrega = () => {
+    open_modal_entrega.value = false;
+};
 </script>
 
 <template>
@@ -186,7 +211,6 @@ function store() {
         </div>
 
         <div class="p-5">
-            
             <table class="min-w-full divide-y divide-gray-00">
                 <thead class="bg-gray-100">
                     <tr>
@@ -240,8 +264,13 @@ function store() {
                         </th>
                     </tr>
                 </thead>
+
                 <tbody class="bg-white">
-                    <tr class="border-b" v-for="prestamo in prestamos.data">
+                    <tr
+                        class="border-b cursor-pointer hover:bg-gray-100"
+                        v-for="prestamo in prestamos.data"
+                        @click="update(prestamo.id)"
+                    >
                         <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                         >
@@ -255,12 +284,12 @@ function store() {
                         <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                         >
-                            {{ prestamo.pNombre }} {{ prestamo.pApellidos}}
+                            {{ prestamo.pNombre }} {{ prestamo.pApellidos }}
                         </td>
                         <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                         >
-                            {{ prestamo.name }} {{ prestamo.last_name}}
+                            {{ prestamo.name }} {{ prestamo.last_name }}
                         </td>
                         <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -270,7 +299,7 @@ function store() {
                         <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                         >
-                            
+                            {{ prestamo.hora_pedido }}
                         </td>
                         <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
@@ -280,12 +309,16 @@ function store() {
                         <td
                             class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
                         >
-                        <span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full"> {{ prestamo.status }}</span>
-                           
+                            <span
+                                class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold text-white rounded-full"
+                                :class="{
+                                    'bg-red-600': prestado(prestamo.status),
+                                    'bg-green-600': !prestado(prestamo.status),
+                                }"
+                            >
+                                {{ prestamo.status }}
+                            </span>
                         </td>
-
-                        
-                        
                     </tr>
                 </tbody>
             </table>

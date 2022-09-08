@@ -166,10 +166,10 @@ Route::put('/inventario/{art_id}', [InventarioController::class, 'update'])
 // Prestamos
 Route::get('/prestamos',[PrestamosController::class, 'index'])
         ->name('prestamos.index');
-
-
 Route::post('/prestamos',[PrestamosController::class, 'store'])
         ->name('prestamos.store');
+Route::put('/prestamos/{prod_id}',[PrestamosController::class, 'update'])
+        ->name('prestamos.update');
 
 // Practicas
 Route::middleware([

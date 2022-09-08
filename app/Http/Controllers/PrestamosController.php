@@ -16,7 +16,7 @@ class PrestamosController extends Controller
     {
         $articulo = (Request::exists('q') != '' ? Productos::where('productos.nomenclatura','=', Request::only('q'))->get() : '');
         
-        $articulos_prestamos = Prestamos::select(['productos.nombre_producto','productos.nomenclatura','prestamos.aula','users.name','users.last_name','p.name as pNombre','p.last_name as pApellidos','prestamos.status','prestamos.hora_pedido'])
+        $articulos_prestamos = Prestamos::select(['prestamos.id','productos.nombre_producto','productos.nomenclatura','prestamos.aula','users.name','users.last_name','p.name as pNombre','p.last_name as pApellidos','prestamos.status','prestamos.hora_pedido','prestamos.hora_entrega'])
             ->join('productos','prestamos.producto_id','=','productos.id')
             ->join('users','prestamos.encargado_id','=','users.id')
             ->join('users as p', 'prestamos.profesor_id', '=', 'p.num_control')
@@ -45,5 +45,15 @@ class PrestamosController extends Controller
             return Redirect::route('prestamos.index')->with('success', 'Prestamo agregado correctamente.');
         }
         
-    }        
+    }     
+    
+    public function update($prestamo_id){
+        $art = Prestamos::findOrFail($prestamo_id);
+        if($art){
+            $art->update([
+                'hora_entrega' => Carbon::now(),
+                'status' => 'Entregado',
+            ]);
+        }
+    }
 }
