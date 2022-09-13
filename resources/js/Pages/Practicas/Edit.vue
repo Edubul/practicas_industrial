@@ -22,9 +22,13 @@ const materias_integradoras = usePage().props.value.materias_integradoras;
 // Arrays
 const maq_usar = ref(usePage().props.value.maquinaria_array);
 const equipo_prot = ref(usePage().props.value.equipo_prot_array);
-const instrumentos_med = ref(usePage().props.value.inst_med_array);
 const integradoras = ref(usePage().props.value.materias_integradoras);
 
+const instrumentos_med = ref(
+    usePage().props.value.inst_med_array == null
+        ? []
+        : usePage().props.value.inst_med_array
+);
 const herramientas_man = ref(
     usePage().props.value.herramientas_man_array == null
         ? []

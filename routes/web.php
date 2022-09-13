@@ -3,6 +3,7 @@
 use App\Http\Controllers\PrestamosController;
 use App\Http\Controllers\BancoController;
 use App\Http\Controllers\CalendarioController;
+use App\Http\Controllers\CitasController;
 use App\Http\Controllers\EncuestaController;
 use App\Http\Controllers\EvidenciasController;
 use App\Http\Controllers\ExternosController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\PracticasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\PanelController;
+use App\Http\Controllers\UsersController;
 use App\Models\Practica;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -179,4 +181,24 @@ Route::middleware([
 ])->group(function () {
     Route::get('/practicas-pendientes', [PracticasController::class, 'index'])
         ->name('practicas.index');
+});
+
+// Users
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/users', [UsersController::class, 'index'])
+        ->name('users.index');
+});
+
+// Citas
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/citas', [CitasController::class, 'index'])
+        ->name('citas.index');
 });
