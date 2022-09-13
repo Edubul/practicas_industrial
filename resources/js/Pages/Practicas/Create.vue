@@ -415,6 +415,9 @@ function changeIntegrador() {
                                     <option>
                                         Seguridad, Salud y Medio Ambiente
                                     </option>
+                                    <option>
+                                        NA = Otras Carreras
+                                    </option>
                                 </select-input>
                             </div>
                             <div class="mb-3">

@@ -41,8 +41,8 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
                                 ></path>
                             </svg>
                         </button>
-                        <a
-                            href="#"
+                        <Link
+                            :href="route('panel')"
                             class="text-xl font-bold flex items-center lg:ml-2.5"
                         >
                             <img
@@ -53,7 +53,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
                             <span class="self-center whitespace-nowrap"
                                 >Laboratorio Industrial</span
                             >
-                        </a>
+                    </Link>
                         <form
                             action="#"
                             method="GET"
