@@ -45,14 +45,7 @@ Route::middleware([
     Route::get('/calendario', [CalendarioController::class, 'index'])
         ->name('calendario');
 });
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/calendario/{id}', [CalendarioController::class, 'show'])
-        ->name('calendario.show');
-});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -201,4 +194,22 @@ Route::middleware([
 ])->group(function () {
     Route::get('/citas', [CitasController::class, 'index'])
         ->name('citas.index');
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/cita/{id}', [CitasController::class, 'show'])
+        ->name('cita.show');
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::delete('/cita/{id}', [CitasController::class, 'destroy'])
+        ->name('cita.destroy');
 });

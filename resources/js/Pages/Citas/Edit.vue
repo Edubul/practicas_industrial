@@ -1,8 +1,17 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
+import { Inertia } from "@inertiajs/inertia";
 
 const cita = usePage().props.value.cita;
+const user = usePage().props.value.user;
+
+function destroy(id){
+    if (confirm("¿Está seguro de aceptar la práctica?")) {
+        Inertia.delete(`/cita/${id}`);
+    }
+}
+
 </script>
 
 <template>
@@ -69,6 +78,10 @@ const cita = usePage().props.value.cita;
                                                 Horario
                                             </h2>
                                             <p>{{ cita.horario }}</p>
+                                        </div>
+                                        <div class="w-1/2" v-if="user.role === 'administrador'"
+>
+                                            <button type="button" @click="destroy(cita.id)" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Eliminar</button>
                                         </div>
                                     </div>
                                 </div>

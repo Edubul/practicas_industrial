@@ -259,7 +259,7 @@ function getFecha(fecha) {
                                                     "
                                                     :href="
                                                         route(
-                                                            'calendario.show',
+                                                            'cita.show',
                                                             practica.id
                                                         )
                                                     "

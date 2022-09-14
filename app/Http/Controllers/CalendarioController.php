@@ -76,18 +76,4 @@ class CalendarioController extends Controller
         }
     }
 
-    public function show($id)
-    {
-        $cita = Cita::find($id)
-            ->join('practicas', 'practicas.id', '=', 'citas.practica_id')
-            ->join('users', 'users.id', '=', 'citas.user_id')
-            ->join('talleres', 'talleres.id', '=', 'citas.taller_id')
-            ->join('horarios', 'horarios.id', '=', 'citas.horario_id')
-            ->where('citas.id', '=', $id)
-            ->first();
-        // dd($cita);
-        return Inertia::render('Panel/Detalles', [
-            'cita' => $cita,
-        ]);
-    }
 }

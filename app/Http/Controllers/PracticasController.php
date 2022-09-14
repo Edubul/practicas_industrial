@@ -45,6 +45,7 @@ class PracticasController extends Controller
         $equipo_proteccion = Productos::select(['id', 'nombre_producto'])->where('categoria_id', '=', 3)->groupBy('nombre_producto')->orderBy('nombre_producto')->get();
         $instrumentos_medicion = Productos::select(['id', 'nombre_producto'])->where('categoria_id', '=', 8)->groupBy('nombre_producto')->orderBy('nombre_producto')->get();
         $materias = Materias::all();
+        $req_ub = Talleres::select(['*'])->orderBy('nombre')->get();
 
         $materias_integradoras = Practica::find($id)->materias_integradoras;
         $profesores_array = Practica::select('profesores')->where('id', '=', $id)->get();
@@ -70,6 +71,7 @@ class PracticasController extends Controller
             'equipo_prot_array' => (isset($equipo_prot_array[0]->equipo_prot) ? unserialize($equipo_prot_array[0]->equipo_prot) : null),
             'titular' => $titular,
             'material_apoyo' => $material_apoyo,
+            'req_ub' => $req_ub,
         ]);
     }
 
@@ -82,6 +84,7 @@ class PracticasController extends Controller
         $maquinaria = Productos::where('categoria_id', 11)->groupBy('nombre_producto')->orderBy('nombre_producto')->get();
         $materias = Materias::orderBy('nombre')->get();
         $profesores = User::where('role', '=', 'profesor')->orderBy('last_name')->get();
+        $req_ub = Talleres::select(['*'])->orderBy('nombre')->get();
 
         return Inertia::render('Practicas/Create', [
             'user' => Auth::user(),
@@ -91,7 +94,8 @@ class PracticasController extends Controller
             'herramientas_man' => $herramientas_man,
             'herramientas_mec' => $herramientas_mec,
             'maquinaria' => $maquinaria,
-            'profesores' => $profesores
+            'profesores' => $profesores,
+            'req_ub' => $req_ub
         ]);
     }
 
@@ -100,7 +104,6 @@ class PracticasController extends Controller
 
         $validate = $request->validated();
 
-        // dd($validate);
         if ($validate) {
 
             if ($request->hasFile('material_apoyo')) {

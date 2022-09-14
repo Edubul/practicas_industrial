@@ -15,6 +15,7 @@ const equipo_proteccion = usePage().props.value.equipo_proteccion;
 const instrumentos_medicion = usePage().props.value.instrumentos_medicion;
 const herramienta_manu = usePage().props.value.herramientas_man;
 const maquinaria = usePage().props.value.maquinaria;
+const req_ub = usePage().props.value.req_ub;
 const maq_usar = ref([]);
 const equipo_prot = ref([]);
 const instrumentos_med = ref([]);
@@ -431,61 +432,14 @@ function changeIntegrador() {
                                             </span>
                                         </Label>
                                         <select-input v-model="form.req_ub_op1">
-                                            Desarrollo de Capital Humano
-                                            <option>Antropometría</option>
-                                            <option>Estudio del trabajo</option>
-                                            <option>Ingeniería Inversa</option>
-                                            <option>Metrología</option>
-                                            <option>
-                                                Sistemas de Manufactura
-                                            </option>
-                                            <option>
-                                                Procesos Productivos y Ensamble
-                                            </option>
-                                            <option>Metal Mecánica</option>
-                                            <option>Maquinados</option>
-                                            <option>Ergonomía Ambiental</option>
-                                            <option>Mirador Industrial</option>
-                                            <option>
-                                                Centro de Negocios A
-                                            </option>
-                                            <option>
-                                                Centro de Negocios B
-                                            </option>
-                                            <option>
-                                                Aula de clases asignada
-                                            </option>
-                                            <option>Taller Secundario</option>
+                                            <option v-for="req in req_ub">{{req.nombre}}</option>
                                         </select-input>
                                     </div>
 
                                     <div class="w-full ml-3">
                                         <Label>Opcion 2: </Label>
                                         <select-input v-model="form.req_ub_op2">
-                                            Desarrollo de Capital Humano
-                                            <option>Antropometría</option>
-                                            <option>Estudio del trabajo</option>
-                                            <option>Ingeniería Inversa</option>
-                                            <option>Metrología</option>
-                                            <option>
-                                                Sistemas de Manufactura
-                                            </option>
-                                            <option>
-                                                Procesos Productivos y Ensamble
-                                            </option>
-                                            <option>Metal Mecánica</option>
-                                            <option>Maquinados</option>
-                                            <option>Ergonomía Ambiental</option>
-                                            <option>Mirador Industrial</option>
-                                            <option>
-                                                Centro de Negocios A
-                                            </option>
-                                            <option>
-                                                Centro de Negocios B
-                                            </option>
-                                            <option>
-                                                Aula de clases asignada
-                                            </option>
+                                            <option v-for="req in req_ub">{{req.nombre}}</option>
                                         </select-input>
                                     </div>
                                 </div>
