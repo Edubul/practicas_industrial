@@ -17,7 +17,8 @@ class CitasController extends Controller
             ->join('users','citas.user_id','=','users.id')
             ->join('talleres','citas.taller_id','=','talleres.id')
             ->join('horarios','citas.horario_id','=','horarios.id')
-            ->join('practicas','citas.practica_id','=','practicas.id')->paginate(15);
+            ->join('practicas','citas.practica_id','=','practicas.id')
+            ->orderBy('citas.fecha','desc')->paginate(15);
             return Inertia::render('Citas/Index',['citas' => $citas,'user' => $user]);
 
     }
@@ -25,7 +26,7 @@ class CitasController extends Controller
     public function show($id)
     {
         $cita = Cita::find($id)
-            ->select(['citas.id','users.name','users.last_name','citas.fecha','talleres.nombre','practicas.nombre_practica','horarios.horario'])
+            ->select(['citas.id','users.name','users.last_name','citas.fecha','talleres.nombre','practicas.nombre_practica','horarios.horario','practicas.clave_practica'])
             ->join('practicas', 'practicas.id', '=', 'citas.practica_id')
             ->join('users', 'users.id', '=', 'citas.user_id')
             ->join('talleres', 'talleres.id', '=', 'citas.taller_id')
