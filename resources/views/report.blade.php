@@ -95,7 +95,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="tg-7btt" colspan="4">Maquinaria - Herramientas</td>
+                <td class="tg-7btt" colspan="4">Maquinaria - Equipo</td>
             </tr>
             <tr>
                 <td class="tg-fymr">Maquinaria o equipo a utilizar</td>

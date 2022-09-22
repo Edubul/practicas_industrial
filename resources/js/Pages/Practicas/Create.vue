@@ -520,7 +520,7 @@ function changeIntegrador() {
                             </div>
 
                             <h2 class="text-lg font-semibold">
-                                Maquinaria-Herramientas
+                                Maquinaria-Equipo
                             </h2>
                             <Label
                                 >Maquinaria a utilizar:

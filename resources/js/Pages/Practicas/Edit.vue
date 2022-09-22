@@ -481,7 +481,7 @@ function removeElement(element, type) {
                             </div>
 
                             <h2 class="text-lg font-semibold">
-                                Maquinaria-Herramientas
+                                Maquinaria-Equipo
                             </h2>
                             <Label>Maquinaria a utilizar: </Label>
                             <div
