@@ -132,6 +132,15 @@ function store() {
                                 <option selected disabled>
                                     -- Seleccionar Práctica --
                                 </option>
+                                <optgroup label="-- Jefaturas --" class="bg-gray-200">
+                                    <option>Jefatura de Laboratorio</option>
+                                    <option>Jefatura de Proyectos de Vinulación</option>
+                                    <option>Jefatura de Proyectos de Docencia</option>
+                                    <option>Presidencia de Academia</option>
+                                    <option>Jefatura de Proyectos de Investigación</option>
+                                    <option>Jefatura de Departamento</option>
+                                </optgroup>
+
                                 <option
                                     v-for="(practica, index) in practicas2"
                                     :key="index"
@@ -157,6 +166,7 @@ function store() {
                                 <option selected disabled>
                                     -- Seleccionar Taller --
                                 </option>
+                                
                                 <option
                                     v-for="(taller, index) in talleres"
                                     :key="index"
