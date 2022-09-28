@@ -71,7 +71,7 @@ const user = usePage().props.value.user;
                                 </Link>
                             </div>
                             <div class="col-span-1 p-3">
-                                <Link :href="route('evidencia.create')">
+                                <Link :href="route('evidencia.index')">
                                     <div
                                         class="flex flex-col justify-center h-full items-center p-3 bg-gray-200 rounded-md hover:bg-gray-300"
                                     >

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('evidencias', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('cita_id')->nullable(false);
             $table->string('nombre');
             $table->string('url');
             $table->timestamps();
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('archivos');
+        Schema::dropIfExists('evidencias');
     }
 };

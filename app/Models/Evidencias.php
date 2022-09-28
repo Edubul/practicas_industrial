@@ -9,6 +9,7 @@ class Evidencias extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'cita_id',
         'nombre',
         'url',
     ];

@@ -123,7 +123,7 @@ const submit = () => {
                         </form>
 
                         <p class="mt-6 text-sm text-center text-white">
-                            <a :href="route('evidencia.create')"
+                            <a :href="route('evidencia.index')"
                                 >¿Eres Alumno?
                                 <span class="text-blue-300">
                                     Sube tu evidencia aquí
