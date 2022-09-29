@@ -23,10 +23,10 @@ class CitasRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'fecha' => 'required',
             'horario' => 'required',
-            'practica_id' => 'required',
             'taller' => 'required',
         ];
     }
@@ -34,7 +34,6 @@ class CitasRequest extends FormRequest
     {
         return [
             'fecha.required' => 'La fecha es requerida',
-            'practica_id.required' => 'La práctica es requerida',
             'horario.required' => 'El horario es requerido',
             'taller.required' => 'El taller es requerido'
         ];

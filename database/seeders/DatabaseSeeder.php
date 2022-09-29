@@ -6,6 +6,7 @@ use App\Models\Archivos;
 use App\Models\CategoriaProductos;
 use App\Models\EncuestasRespuestas;
 use App\Models\Horarios;
+use App\Models\Jefaturas;
 use App\Models\Materias;
 use App\Models\PreguntasEncuesta;
 use App\Models\Talleres;
@@ -38,5 +39,6 @@ class DatabaseSeeder extends Seeder
         CategoriaProductos::factory(11)->create();
         // Archivos::factory(60)->create();
         Materias::factory(60)->create();
+        Jefaturas::factory(6)->create();
     }
 }

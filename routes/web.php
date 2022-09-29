@@ -59,6 +59,7 @@ Route::middleware([
 // Evidencias Routes
 Route::get('evidencia_alumno', [EvidenciasController::class, 'index'])->name('evidencia.index');
 Route::post('evidencia/store', [EvidenciasController::class, 'store'])->name('evidencia.store');
+Route::get('evidencia/list', [EvidenciasController::class, 'list'])->name('evidencia.list');
 
 
 // Practicas Routes

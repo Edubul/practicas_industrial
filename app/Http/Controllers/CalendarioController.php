@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CitasRequest;
 use App\Models\Cita;
 use App\Models\Horarios;
+use App\Models\Jefaturas;
 use App\Models\Practica;
 use App\Models\Talleres;
 use Carbon\Carbon;
@@ -25,6 +26,7 @@ class CalendarioController extends Controller
             ->where('citas.taller_id', '=', Request::only('taller_id'))
             ->get();
 
+        $jefaturas = Jefaturas::all();
         $horarios = Horarios::all();
         $fecha = Request::only('fecha');
 
@@ -44,6 +46,7 @@ class CalendarioController extends Controller
             'horarios' => $horarios,
             'horariosOcupados' => $horariosOcupados,
             'practicas' => $practicas,
+            'jefaturas' => $jefaturas,
         ]);
     }
 
@@ -56,17 +59,28 @@ class CalendarioController extends Controller
             ->where('fecha', '=', $newDate)
             ->get();
 
+        if($request['jefatura_id'] != null)
+            $type = 'jefatura_id';
+        else if($request['practica_id'] != null)
+            $type = 'practica_id';
+        else
+            return Redirect::back()->withErrors(['Debe seleccionar una jefatura o practica']);
+
+
+            $request->validate([
+                $type => 'required'
+            ]);
+
         if ($newDate <= Carbon::now()->format('Y-m-d')) {
             return Redirect::back()->withErrors(['La fecha debe ser mayor a la actual. (Anticipa tus citas un día antes)']);
         }
 
         if ($validated && $select->count() == 0) {
-            // dd($request['practica']);
             Cita::create([
                 'user_id' => Auth::user()->id,
                 'taller_id' => $request['taller'],
                 'horario_id' => $request['horario'],
-                'practica_id' => $request['practica_id'],
+                $type => $request[$type],
                 'fecha' => $newDate,
             ]);
 
@@ -75,5 +89,4 @@ class CalendarioController extends Controller
             return Redirect::back()->withErrors(['error' => 'El horario ya esta ocupado']);
         }
     }
-
 }

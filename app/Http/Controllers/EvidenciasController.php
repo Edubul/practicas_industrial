@@ -44,4 +44,18 @@ class EvidenciasController extends Controller
             return Redirect::back()->with('success', 'Archivo subido correctamente');
         }
     }
+
+    public function list()
+    {
+        $citas = Cita::select(['citas.id','users.name','users.last_name','talleres.nombre as taller','horarios.horario','citas.fecha','practicas.materia','evidencias.*'])
+            ->join('users','citas.user_id','=','users.id')
+            ->join('talleres','citas.taller_id','=','talleres.id')
+            ->join('horarios','citas.horario_id','=','horarios.id')
+            ->join('practicas','citas.practica_id','=','practicas.id')
+            ->join('evidencias','citas.id','=','evidencias.cita_id')
+            ->orderBy('citas.fecha','desc')
+            ->paginate(15);
+            
+            return Inertia::render('Evidencias/List', ['citas' => $citas]);
+        }
 }

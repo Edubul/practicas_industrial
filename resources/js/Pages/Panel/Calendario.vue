@@ -15,6 +15,7 @@ const today = new Date();
 const fecha = today.toLocaleDateString("es-MX");
 const talleres = usePage().props.value.talleres;
 const practicas2 = usePage().props.value.practicas;
+const jefaturas = usePage().props.value.jefaturas;
 const practicas = computed(() => usePage().props.value.citas);
 const horariosOcupados = computed(() => usePage().props.value.horariosOcupados);
 const selectDate = ref("");
@@ -25,8 +26,11 @@ const form = useForm({
     taller: null,
     horario: null,
     practica_id: null,
+    jefatura_id: null,
+    select_type: "",
 });
 
+const jefaturas_select = ref(false);
 const horarios = usePage().props.value.horarios;
 
 function changeDate(e) {
@@ -43,6 +47,18 @@ function changetest(event) {
 
 function horarioOcupado(horario_id) {
     return horariosOcupados.value.some((h) => h.horario_id == horario_id);
+}
+
+function changeType(){
+        form.practica_id = null;
+
+        form.jefatura_id = null;
+    
+
+    jefaturas_select.value = !jefaturas_select.value;
+    console.log(form.practica_id);
+    console.log(form.jefatura_id);
+
 }
 
 watch(selectDate, (newValue) => {
@@ -99,6 +115,24 @@ function store() {
                     </div>
                     <jet-validation-errors class="p-5" />
                     <div
+                        class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in ml-5"
+                    >
+                        <input
+                            type="checkbox"
+                            name="toggle"
+                            @click="changeType"
+                            id="toggle"
+                            class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                        />
+                        <label
+                            for="toggle"
+                            class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                        ></label>
+                    </div>
+                    <label for="toggle" class="text-xs text-gray-700"
+                        >Jefaturas</label
+                    >
+                    <div
                         class="flex flex-wrap items-center justify-around w-full p-5"
                     >
                         <div class="flex flex-col h-full w-full md:w-1/6">
@@ -120,36 +154,52 @@ function store() {
                         </div>
 
                         <div class="flex flex-col h-full w-full md:w-1/6">
-                            <JetLabel
-                                for="horario"
-                                value="Práctica"
-                                class="font-bold text-lg"
-                            />
-                            <select-option
-                                id="horario"
-                                v-model="form.practica_id"
-                            >
-                                <option selected disabled>
-                                    -- Seleccionar Práctica --
-                                </option>
-                                <optgroup label="-- Jefaturas --" class="bg-gray-200">
-                                    <option>Jefatura de Laboratorio</option>
-                                    <option>Jefatura de Proyectos de Vinulación</option>
-                                    <option>Jefatura de Proyectos de Docencia</option>
-                                    <option>Presidencia de Academia</option>
-                                    <option>Jefatura de Proyectos de Investigación</option>
-                                    <option>Jefatura de Departamento</option>
-                                </optgroup>
-
-                                <option
-                                    v-for="(practica, index) in practicas2"
-                                    :key="index"
-                                    :value="practica.id"
-                                >
-                                    {{ practica.clave_practica }} -
-                                    {{ practica.nombre_practica }}
-                                </option>
-                            </select-option>
+                            <div v-if="jefaturas_select == true">
+                                <JetLabel
+                                    for="horario"
+                                    value="Jefaturas"
+                                    class="font-bold text-lg"
+                                />
+                                <select-option v-model="form.jefatura_id">
+                                    <optgroup
+                                        label="-- Jefaturas --"
+                                        class="bg-gray-200"
+                                    >
+                                        <option
+                                            v-for="(
+                                                jefatura, index
+                                            ) in jefaturas"
+                                            :value="jefatura.id"
+                                        >
+                                            {{ jefatura.nombre }}
+                                        </option>
+                                    </optgroup>
+                                </select-option>
+                            </div>
+                            <div v-else>
+                                <JetLabel
+                                    for="horario"
+                                    value="Práctica"
+                                    class="font-bold text-lg"
+                                />
+                                <select-option v-model="form.practica_id">
+                                    <optgroup
+                                        label="-- Practicas --"
+                                        class="bg-gray-200"
+                                    >
+                                        <option
+                                            v-for="(
+                                                practica, index
+                                            ) in practicas2"
+                                            :key="index"
+                                            :value="practica.id"
+                                        >
+                                            {{ practica.clave_practica }} -
+                                            {{ practica.nombre_practica }}
+                                        </option>
+                                    </optgroup>
+                                </select-option>
+                            </div>
                         </div>
 
                         <div class="flex flex-col h-full w-full md:w-1/6">
@@ -163,18 +213,27 @@ function store() {
                                 v-model="form.taller"
                                 @change="changetest"
                             >
-                                <option selected disabled>
-                                    -- Seleccionar Taller --
-                                </option>
-                                
-                                <option
-                                    v-for="(taller, index) in talleres"
-                                    :key="index"
-                                    :value="taller.id"
+                                <optgroup
+                                    label="-- Talleres --"
+                                    class="bg-gray-200"
                                 >
-                                    {{ taller.nombre }}
-                                </option>
-                            </select-option>
+                                    <option
+                                        v-for="(taller, index) in talleres"
+                                        :key="index"
+                                        :value="taller.id"
+                                    >
+                                        {{ taller.nombre }}
+                                    </option>
+
+                                    <option
+                                        v-for="(taller, index) in talleres"
+                                        :key="index"
+                                        :value="taller.id"
+                                    >
+                                        {{ taller.nombre }}
+                                    </option>
+                                </optgroup></select-option
+                            >
                         </div>
 
                         <div class="flex flex-col h-full w-full md:w-1/6">
@@ -220,3 +279,17 @@ function store() {
         </div>
     </AppLayout>
 </template>
+
+<style scoped>
+/* CHECKBOX TOGGLE SWITCH */
+/* @apply rules for documentation, these do not work as inline style */
+.toggle-checkbox:checked {
+    @apply: right-0 border-green-400;
+    right: 0;
+    border-color: #68d391;
+}
+.toggle-checkbox:checked + .toggle-label {
+    @apply: bg-green-400;
+    background-color: #68d391;
+}
+</style>
