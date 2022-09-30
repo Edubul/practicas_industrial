@@ -15,8 +15,6 @@
     
     <template>
         <DashboardLayout>
-            
-    
             <div class="p-5">
                 <table class="min-w-full divide-y divide-gray-00">
                     <thead class="bg-gray-100">

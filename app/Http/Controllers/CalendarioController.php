@@ -26,6 +26,13 @@ class CalendarioController extends Controller
             ->where('citas.taller_id', '=', Request::only('taller_id'))
             ->get();
 
+        $citas_jefatura = Cita::select(['jefaturas.nombre','citas.fecha'])
+            ->join('jefaturas','citas.jefatura_id','=','jefaturas.id')
+            ->where('citas.taller_id', '=', Request::only('taller_id'))
+            ->get();
+
+        // dd($citas_jefatura);
+
         $jefaturas = Jefaturas::all();
         $horarios = Horarios::all();
         $fecha = Request::only('fecha');
@@ -47,6 +54,7 @@ class CalendarioController extends Controller
             'horariosOcupados' => $horariosOcupados,
             'practicas' => $practicas,
             'jefaturas' => $jefaturas,
+            'citas_jefatura' => $citas_jefatura,
         ]);
     }
 

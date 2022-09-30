@@ -38,8 +38,10 @@ const emit = defineEmits(["dayClicked"]);
 const props = defineProps({
     date: String,
     practicas: Object,
+    citas_jefatura: Object,
     taller: String,
 });
+console.log(props.citas_jefatura);
 
 function dayDisabled(date) {
     // console.log("date: " + date);
@@ -267,6 +269,24 @@ function getFecha(fecha) {
                                                     {{ practica.name }}
                                                     {{ practica.last_name }}
                                                 </a>
+                                            </p>
+                                        </template>
+
+                                        <template
+                                            v-for="cita in props.citas_jefatura.filter(
+                                                (j) =>
+                                                    getFecha(j.fecha) ===
+                                                    new Date(
+                                                        year,
+                                                        month,
+                                                        date
+                                                    ).toDateString()
+                                            )"
+                                        >
+                                            <p
+                                                class="text-sm truncate leading-tight text-red-500"
+                                            >
+                                                {{ cita.nombre }}
                                             </p>
                                         </template>
                                     </div>

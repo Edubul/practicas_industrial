@@ -17,6 +17,7 @@ const talleres = usePage().props.value.talleres;
 const practicas2 = usePage().props.value.practicas;
 const jefaturas = usePage().props.value.jefaturas;
 const practicas = computed(() => usePage().props.value.citas);
+const citas_jefatura = computed(() => usePage().props.value.citas_jefatura);
 const horariosOcupados = computed(() => usePage().props.value.horariosOcupados);
 const selectDate = ref("");
 const selectTaller = ref("");
@@ -56,8 +57,6 @@ function changeType(){
     
 
     jefaturas_select.value = !jefaturas_select.value;
-    console.log(form.practica_id);
-    console.log(form.jefatura_id);
 
 }
 
@@ -272,6 +271,7 @@ function store() {
                     <calendar
                         :date="form.fecha"
                         :practicas="practicas"
+                        :citas_jefatura="citas_jefatura"
                         @dayClicked="changeDate($event)"
                     />
                 </div>
