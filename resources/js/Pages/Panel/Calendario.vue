@@ -223,14 +223,6 @@ function store() {
                                     >
                                         {{ taller.nombre }}
                                     </option>
-
-                                    <option
-                                        v-for="(taller, index) in talleres"
-                                        :key="index"
-                                        :value="taller.id"
-                                    >
-                                        {{ taller.nombre }}
-                                    </option>
                                 </optgroup></select-option
                             >
                         </div>
