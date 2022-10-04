@@ -117,8 +117,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard.index');
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard.index');
 });
 
 // Inventario
@@ -127,8 +127,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-Route::get('/inventario', [InventarioController::class, 'index'])
-    ->name('inventario.index');
+    Route::get('/inventario', [InventarioController::class, 'index'])
+        ->name('inventario.index');
 });
 
 Route::middleware([
@@ -136,8 +136,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-Route::get('/inventario/create', [InventarioController::class, 'create'])
-    ->name('inventario.create');
+    Route::get('/inventario/create', [InventarioController::class, 'create'])
+        ->name('inventario.create');
 });
 
 Route::middleware([
@@ -145,8 +145,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-Route::get('/inventario/{art_id}/edit', [InventarioController::class, 'edit'])
-    ->name('inventario.edit');
+    Route::get('/inventario/{art_id}/edit', [InventarioController::class, 'edit'])
+        ->name('inventario.edit');
 });
 
 Route::middleware([
@@ -154,18 +154,36 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-Route::put('/inventario/{art_id}', [InventarioController::class, 'update'])
-    ->name('inventario.update');
+    Route::put('/inventario/{art_id}', [InventarioController::class, 'update'])
+        ->name('inventario.update');
 });
 
 
 // Prestamos
-Route::get('/prestamos',[PrestamosController::class, 'index'])
-        ->name('prestamos.index');
-Route::post('/prestamos',[PrestamosController::class, 'store'])
-        ->name('prestamos.store');
-Route::put('/prestamos/{prod_id}',[PrestamosController::class, 'update'])
-        ->name('prestamos.update');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+Route::get('/prestamos', [PrestamosController::class, 'index'])
+    ->name('prestamos.index');
+});
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+Route::post('/prestamos', [PrestamosController::class, 'store'])
+    ->name('prestamos.store');
+});
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+Route::put('/prestamos/{prod_id}', [PrestamosController::class, 'update'])
+    ->name('prestamos.update');
+});
 
 // Practicas
 Route::middleware([
@@ -188,14 +206,8 @@ Route::middleware([
 });
 
 // Citas
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/citas', [CitasController::class, 'index'])
-        ->name('citas.index');
-});
+Route::get('/citas', [CitasController::class, 'index'])
+    ->name('citas.index');
 
 Route::middleware([
     'auth:sanctum',
