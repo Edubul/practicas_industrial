@@ -52,7 +52,7 @@ class EvidenciasController extends Controller
             ->join('talleres','citas.taller_id','=','talleres.id')
             ->join('horarios','citas.horario_id','=','horarios.id')
             ->join('practicas','citas.practica_id','=','practicas.id')
-            ->join('evidencias','citas.id','=','evidencias.cita_id')
+            ->leftJoin('evidencias','citas.id','=','evidencias.cita_id')
             ->orderBy('citas.fecha','desc')
             ->paginate(15);
             

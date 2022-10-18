@@ -17,7 +17,6 @@ const form = useForm({
 const openModal = (cita_id) => {
     open_modal.value = true;
     form.cita_id = cita_id;
-    console.log(form.cita_id);
 };
 
 const closeModal = () => {
