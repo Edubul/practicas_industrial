@@ -16,14 +16,18 @@ import {
     faBusinessTime,
     faBoxArchive,
     faCartFlatbed,
+    faTrash,
+    faPenToSquare
 } from "@fortawesome/free-solid-svg-icons";
 
 const icons = library.add(
     faVault,
+    faTrash,
     faFileArrowUp,
     faPenRuler,
     faCalendarPlus,
     faBusinessTime,
+    faPenToSquare,
     faBoxArchive,
     faCartFlatbed,
 );

@@ -195,6 +195,15 @@ Route::middleware([
         ->name('practicas.index');
 });
 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::delete('/practicas/destroy/{p_id}', [PracticasController::class, 'destroy'])
+        ->name('practicas.destroy');
+});
+
 // Users
 Route::middleware([
     'auth:sanctum',

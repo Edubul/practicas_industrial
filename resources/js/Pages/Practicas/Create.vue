@@ -610,6 +610,7 @@ function changeIntegrador() {
                                             Gafa de seguridad transparente
                                         </option>
                                         <option>Zapato cerrado</option>
+                                        <option>Bata</option>
                                         <option>Bota industrial</option>
                                         <option>
                                             Gafa de seguridad 5 sombras

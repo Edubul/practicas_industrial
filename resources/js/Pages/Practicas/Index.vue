@@ -1,9 +1,17 @@
 <script setup>
 import DashboardLayout from "@/Layouts/DashboardLayout.vue";
 import Pagination from "@/Shared/Pagination.vue";
+import { Inertia } from "@inertiajs/inertia";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 
 const practicas = usePage().props.value.practicas;
+
+function destroy(practica_id){
+    if (confirm("¿Estás seguro de eliminar esta cita?")) {
+        Inertia.delete(`/practicas/destroy/${practica_id}`);
+
+    }}
+
 </script>
 <template>
     <DashboardLayout title="Laboratorio">
@@ -112,18 +120,36 @@ const practicas = usePage().props.value.practicas;
                                                     >
                                                 </td>
                                                 <td>
-                                                    <a
-                                                        :href="
+                                                    <div class="flex">
+                                                        <div
+                                                            class= "cursor-pointer mr-4"
+                                                        >
+                                                            <Link :href="
                                                             route(
                                                                 'practicas.edit',
                                                                 practica.id
                                                             )
-                                                        "
-                                                        type="button"
-                                                            class="inline-block px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out"
-                                                    >
-                                                        Ver
-                                                    </a>
+                                                        ">
+                                                                <font-awesome-icon
+                                                                    class=""
+                                                                    icon="fa-solid fa-pen-to-square"
+                                                                />
+                                                            </Link>
+                                                        </div>
+                                                        <div
+                                                            class=" cursor-pointer"
+                                                        >
+                                                            <Link @click="                              destroy(
+                                                                practica.id
+                                                            )
+                                                        ">
+                                                                <font-awesome-icon
+                                                                    class=""
+                                                                    icon="fa-solid fa-trash"
+                                                                />
+                                                            </Link>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>

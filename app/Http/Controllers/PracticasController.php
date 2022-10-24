@@ -205,16 +205,13 @@ class PracticasController extends Controller
         }
     }
 
-    // public function pendientes()
-    // {
-    //     $practicas = Practica::select(['users.name', 'users.last_name', 'practicas.id', 'profesores', 'status', 'materia', 'materias_integradoras', 'tema', 'atributo_egreso'])
-    //         ->join('users', 'users.id', '=', 'practicas.user_id')
-    //         ->paginate(15);
+    public function destroy($practica_id)
+    {
+        $practica = Practica::findOrFail($practica_id);
+        $practica->delete();
+        return Redirect::route('practicas.index')->with('success', 'Artículo editado correctamente.');
 
-    //     return Inertia::render('Practicas/Pendientes', [
-    //         'practicas' => $practicas,
-    //     ]);
-    // }
+    }
 
     public function banco()
     {
